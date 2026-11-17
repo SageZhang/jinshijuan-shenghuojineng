@@ -1,0 +1,19 @@
+# 抓取中间产物 / 本地缓存（可重新生成）
+data/price_cache_*.json
+*.tmp
+.tmp_*
+
+# 视觉验证产物
+qa/
+
+# 系统与编辑器
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+.vscode/
+
+# 依赖
+node_modules/
+__pycache__/
+*.pyc

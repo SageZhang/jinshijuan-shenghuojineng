@@ -1,0 +1,17 @@
+# Put this server block in the directory included by your nginx.conf.
+# Replace luoyang.example.com with your real domain or server IP.
+server {
+    listen 80;
+    server_name luoyang.example.com;
+
+    root /data/luoyang;
+    index index.html;
+    charset utf-8;
+
+    # Revalidate the HTML so guide updates appear on refresh.
+    add_header Cache-Control "no-cache";
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+}

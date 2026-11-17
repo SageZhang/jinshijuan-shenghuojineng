@@ -1,0 +1,1670 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>剑网3 · 生活技艺工作台 | 烹饪 · 医术 · 锻造 · 缝纫</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#070b12;--panel:#0d1521;--panel2:#111c2b;--line:rgba(120,180,255,.13);
+  --cy:#22d3ee;--vi:#8b5cf6;--tx:#dbe7f5;--dim:#7b8ca6;--ok:#34d399;--bad:#f87171;--warn:#fbbf24;
+  --num:'SF Mono',Consolas,'Roboto Mono',monospace;
+}
+html,body{height:100%}
+body{
+  background:var(--bg);color:var(--tx);
+  font-family:-apple-system,'Segoe UI','Microsoft YaHei',sans-serif;
+  font-size:14px;line-height:1.5;overflow-x:hidden;
+  background-image:radial-gradient(circle at 15% -10%,rgba(34,211,238,.13),transparent 45%),
+                   radial-gradient(circle at 85% 0%,rgba(139,92,246,.12),transparent 42%),
+                   linear-gradient(rgba(120,180,255,.032) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(120,180,255,.032) 1px,transparent 1px);
+  background-size:auto,auto,44px 44px,44px 44px;
+}
+.wrap{max-width:1440px;margin:0 auto;padding:22px 26px 80px}
+header{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap;padding-bottom:16px;position:relative}
+header::after{content:'';position:absolute;left:0;right:0;bottom:0;height:1px;background:linear-gradient(90deg,var(--cy),rgba(139,92,246,.6),transparent)}
+h1{font-size:23px;font-weight:700;letter-spacing:.5px;display:flex;align-items:center;gap:11px}
+h1 .dot{width:9px;height:9px;border-radius:50%;background:var(--cy);box-shadow:0 0 14px var(--cy);animation:pulse 2.4s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+.sub{color:var(--dim);font-size:12px;margin-top:6px;letter-spacing:.3px}
+.sub b{color:var(--cy);font-weight:600}
+.hstat{display:flex;gap:26px}
+.hstat div{text-align:right}
+.hstat .k{font-size:11px;color:var(--dim);letter-spacing:.6px}
+.hstat .v{font-family:var(--num);font-size:18px;font-weight:600;color:#fff;margin-top:2px}
+.hstat .v small{font-size:11px;color:var(--dim);font-weight:400}
+
+nav{display:flex;gap:6px;margin:18px 0 20px;flex-wrap:wrap}
+nav button{
+  background:rgba(255,255,255,.03);border:1px solid var(--line);color:var(--dim);
+  padding:9px 18px;border-radius:9px;cursor:pointer;font-size:13.5px;transition:.18s;font-weight:500;
+}
+nav button:hover{color:var(--tx);border-color:rgba(34,211,238,.4)}
+nav button.on{background:linear-gradient(135deg,rgba(34,211,238,.16),rgba(139,92,246,.16));color:#fff;border-color:rgba(34,211,238,.55);box-shadow:0 0 18px rgba(34,211,238,.13)}
+.tab{display:none}.tab.on{display:block}
+
+.card{background:linear-gradient(180deg,rgba(17,28,43,.92),rgba(13,21,33,.92));border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin-bottom:16px}
+.card h2{font-size:14px;font-weight:600;letter-spacing:.6px;color:#fff;margin-bottom:4px;display:flex;align-items:center;gap:8px}
+.card h2::before{content:'';width:3px;height:13px;border-radius:2px;background:linear-gradient(180deg,var(--cy),var(--vi))}
+.card .hint{color:var(--dim);font-size:12px;margin-bottom:14px}
+
+.row{display:flex;gap:14px;flex-wrap:wrap;align-items:flex-end}
+.fld{display:flex;flex-direction:column;gap:6px}
+.fld label{font-size:11px;color:var(--dim);letter-spacing:.5px}
+input,select,textarea{
+  background:#0a1119;border:1px solid var(--line);color:var(--tx);border-radius:8px;
+  padding:8px 11px;font-size:13px;font-family:var(--num);outline:none;transition:.15s;
+}
+input:focus,select:focus,textarea:focus{border-color:rgba(34,211,238,.6);box-shadow:0 0 0 3px rgba(34,211,238,.1)}
+input[type=number]{width:110px}
+select{font-family:inherit;cursor:pointer;min-width:130px}
+textarea{font-family:var(--num);font-size:12px;width:100%;resize:vertical;line-height:1.7}
+.btn{
+  background:linear-gradient(135deg,rgba(34,211,238,.2),rgba(139,92,246,.2));border:1px solid rgba(34,211,238,.45);
+  color:#e2f6ff;padding:8px 16px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:500;transition:.18s;
+}
+.btn:hover{box-shadow:0 0 16px rgba(34,211,238,.28);transform:translateY(-1px)}
+.btn.ghost{background:rgba(255,255,255,.03);border-color:var(--line);color:var(--dim)}
+.btn.ghost:hover{color:var(--tx);box-shadow:none}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.seg button{background:transparent;border:0;color:var(--dim);padding:7px 13px;font-size:12.5px;cursor:pointer;transition:.15s;white-space:nowrap}
+.seg button.on{background:rgba(34,211,238,.16);color:#fff}
+
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{
+  text-align:left;font-size:11px;color:var(--dim);font-weight:500;letter-spacing:.5px;
+  padding:8px 10px;border-bottom:1px solid var(--line);white-space:nowrap;position:sticky;top:0;
+  background:#0d1521;z-index:2;cursor:pointer;user-select:none;
+}
+th:hover{color:var(--cy)}
+th.num,td.num{text-align:right;font-family:var(--num)}
+td{padding:8px 10px;border-bottom:1px solid rgba(120,180,255,.06);white-space:nowrap}
+tbody tr{transition:.12s}
+tbody tr:hover{background:rgba(34,211,238,.05)}
+.scroll{max-height:620px;overflow:auto;border-radius:10px}
+.scroll::-webkit-scrollbar{width:9px;height:9px}
+.scroll::-webkit-scrollbar-thumb{background:rgba(120,180,255,.18);border-radius:5px}
+.scroll::-webkit-scrollbar-track{background:transparent}
+
+.tag{display:inline-block;padding:1px 7px;border-radius:5px;font-size:11px;line-height:18px;border:1px solid}
+.t-misc{color:#94a3b8;border-color:rgba(148,163,184,.4);background:rgba(148,163,184,.1)}
+.t-cook{color:#fbbf24;border-color:rgba(251,191,36,.4);background:rgba(251,191,36,.1)}
+.t-cons{color:#38bdf8;border-color:rgba(56,189,248,.4);background:rgba(56,189,248,.1)}
+.t-gear{color:#fb923c;border-color:rgba(251,146,60,.4);background:rgba(251,146,60,.1)}
+.t-mat{color:#94a3b8;border-color:rgba(148,163,184,.4);background:rgba(148,163,184,.1)}
+.t-core{color:#f472b6;border-color:rgba(244,114,182,.45);background:rgba(244,114,182,.12)}
+.t-med{color:#34d399;border-color:rgba(52,211,153,.4);background:rgba(52,211,153,.1)}
+.t-exp{color:#c084fc;border-color:rgba(192,132,252,.4);background:rgba(192,132,252,.1)}
+.t-miss{color:#f87171;border-color:rgba(248,113,113,.45);background:rgba(248,113,113,.1)}
+.pos{color:var(--ok)}.neg{color:var(--bad)}.warn{color:#fbbf24}
+.gold{color:#fcd34d;font-family:var(--num)}
+
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:12px;margin-bottom:16px}
+.kpi{background:linear-gradient(160deg,rgba(34,211,238,.09),rgba(139,92,246,.06));border:1px solid rgba(34,211,238,.22);border-radius:12px;padding:14px 16px;position:relative;overflow:hidden}
+.kpi::after{content:'';position:absolute;top:-40%;right:-20%;width:120px;height:120px;background:radial-gradient(circle,rgba(34,211,238,.16),transparent 70%)}
+.kpi .l{font-size:11px;color:var(--dim);letter-spacing:.6px}
+.kpi .v{font-family:var(--num);font-size:24px;font-weight:700;margin-top:6px;color:#fff}
+.kpi .d{font-size:11.5px;color:var(--dim);margin-top:4px}
+.kpi .d b{color:var(--cy);font-weight:600}
+
+.pathline{display:flex;flex-direction:column;gap:8px}
+.pstep{display:grid;grid-template-columns:64px 1fr auto;gap:14px;align-items:center;background:rgba(255,255,255,.022);border:1px solid var(--line);border-left:3px solid var(--cy);border-radius:9px;padding:10px 14px}
+.pstep .lv{font-family:var(--num);font-size:13px;color:var(--cy);font-weight:600}
+.pstep .nm{font-size:13.5px;color:#fff}
+.pstep .nt{font-size:11.5px;color:var(--dim);margin-top:2px}
+.pstep .rt{text-align:right;font-family:var(--num);font-size:12.5px}
+.bar{height:4px;border-radius:3px;background:rgba(255,255,255,.07);overflow:hidden;margin-top:6px;max-width:340px}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--cy),var(--vi))}
+
+.guide{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.gstep{display:flex;gap:12px;align-items:flex-start;background:rgba(255,255,255,.022);border:1px solid var(--line);border-radius:10px;padding:13px 15px}
+.gstep i{font-style:normal;font-family:var(--num);font-size:15px;font-weight:700;background:linear-gradient(135deg,var(--cy),var(--vi));-webkit-background-clip:text;background-clip:text;color:transparent;min-width:24px}
+.gstep b{display:block;font-size:13.5px;color:#fff;margin-bottom:3px}
+.gstep span{font-size:12px;color:var(--dim);line-height:1.65}
+.gstep code{background:rgba(34,211,238,.1);color:var(--cy);padding:1px 5px;border-radius:4px;font-family:var(--num);font-size:11px}
+.pricegrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px}.pcell{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.025);border:1px solid var(--line);border-radius:8px;padding:5px 8px;min-height:42px}
+.pcell span{font-size:12px;flex:1;min-width:0;overflow:hidden;display:flex;flex-direction:column;justify-content:center;color:#c4d4e6;line-height:1.3}
+.pcell span i.nm{font-style:normal;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pcell span small{display:block;font-size:9px;color:#7f93a8;font-family:var(--num);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.35}
+.pcell span small em{font-style:normal;margin-right:5px;opacity:.9}
+.pcell .src{font-style:normal;font-size:10px;line-height:15px;width:15px;text-align:center;border-radius:4px;cursor:pointer;user-select:none;flex:none}
+.s-craft .src{background:rgba(139,92,246,.28);color:#c4b5fd}
+.s-shop .src{background:rgba(251,191,36,.22);color:#fbbf24}
+.s-market .src{background:rgba(34,211,238,.2);color:#67e8f9}
+.s-self .src{background:rgba(52,211,153,.2);color:#6ee7b7}
+.pcell .alt{font-size:9.5px;color:#7f93a8;font-family:var(--num);white-space:nowrap;flex:none}
+.pcell.zero{border-color:rgba(248,113,113,.35)}
+.navsum{margin-left:auto;font-size:11.5px;color:var(--dim);align-self:center;font-family:var(--num)}
+.navsum b{color:var(--cy);font-weight:600}
+.qin{width:66px;padding:3px 6px;font-size:12px;text-align:right;border-radius:5px;background:#080e16;border:1px solid var(--line)}
+.sumline{display:flex;flex-wrap:wrap;gap:22px;align-items:flex-end;padding:12px 14px;border-radius:10px;background:linear-gradient(135deg,rgba(34,211,238,.08),rgba(139,92,246,.08));border:1px solid rgba(34,211,238,.22);margin-top:12px}
+.sumline .it{display:flex;flex-direction:column;gap:2px}
+.sumline .it .k{font-size:10.5px;color:var(--dim)}
+.sumline .it .v{font-family:var(--num);font-weight:700;font-size:16px;color:#fff}
+.plangrid{display:grid;grid-template-columns:1fr 340px;gap:14px}
+@media(max-width:1080px){.plangrid{grid-template-columns:1fr}}
+.pgroup{margin-top:14px}
+.pgroup h3{font-size:12.5px;font-weight:600;color:#dbe8f5;margin:0 0 6px;display:flex;align-items:center;gap:6px}
+.pgroup h3 em{font-style:normal;font-size:11px;color:var(--dim);font-weight:400}
+
+.pcell input{width:64px;padding:4px 6px;font-size:12px;border-radius:6px;background:#080e16;text-align:right}
+.pcell.filled{border-color:rgba(52,211,153,.32)}
+.pcell.filled span{color:#fff}
+
+.note{font-size:12px;color:var(--dim);line-height:1.85}
+.note b{color:var(--tx)}
+.note code{background:rgba(34,211,238,.1);color:var(--cy);padding:1px 6px;border-radius:4px;font-family:var(--num);font-size:11.5px}
+.empty{text-align:center;color:var(--dim);padding:40px;font-size:13px}
+.mini{font-size:11px;color:var(--dim)}
+td.stock{font-family:var(--num);font-size:12px;color:#a8bccf}
+.flex{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.flex.end{justify-content:flex-end}
+.grow{flex:1}
+
+/* ============ BOM 拆解弹层 ============ */
+.modal{position:fixed;inset:0;background:rgba(4,8,14,.8);display:none;z-index:200;padding:3vh 16px;overflow:auto}
+.modal.on{display:block}
+.modalbox{max-width:940px;margin:0 auto;background:linear-gradient(180deg,#0e1a28,#0a121c);border:1px solid rgba(34,211,238,.28);border-radius:14px;box-shadow:0 30px 80px rgba(0,0,0,.65)}
+.mhead{display:flex;justify-content:space-between;align-items:flex-start;padding:16px 20px 12px;border-bottom:1px solid var(--line)}
+.mtitle{font-size:16px;font-weight:700;color:#fff}
+.msub{font-size:11.5px;color:var(--dim);margin-top:3px}
+.mclose{background:transparent;border:0;color:var(--dim);font-size:22px;line-height:1;cursor:pointer;padding:0 4px}
+.mclose:hover{color:var(--bad)}
+.mbody{padding:10px 20px 4px;max-height:60vh;overflow:auto}
+.bomhead,.bomrow{display:grid;grid-template-columns:1fr 34px 90px 96px;gap:8px;align-items:center}
+.bomhead{font-size:11px;color:var(--dim);padding:0 0 6px;border-bottom:1px solid var(--line);position:sticky;top:0;background:#0e1a28;z-index:2}
+.bomrow{padding:5px 0;border-bottom:1px dashed rgba(120,180,255,.07);font-size:12.5px}
+.bomrow:hover{background:rgba(34,211,238,.045)}
+.bomrow .nm{display:flex;align-items:center;gap:6px;min-width:0}
+.bomrow .nm b{font-weight:500;color:#e6f0fa;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bomrow .qty{color:var(--dim);font-family:var(--num);font-size:11.5px;flex:none}
+.bomrow .src{font-style:normal;font-size:10px;line-height:15px;width:15px;text-align:center;border-radius:4px;cursor:pointer;flex:none}
+.bomrow.top{background:rgba(139,92,246,.08)}
+.bomrow.top .nm b{color:#fff;font-weight:600}
+.bomrow .fold{background:transparent;border:0;color:var(--dim);cursor:pointer;font-size:10px;padding:0 2px}
+.mfoot{padding:14px 20px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:20px;align-items:flex-end}
+.mfoot .it{display:flex;flex-direction:column;gap:2px}
+.mfoot .it .k{font-size:10.5px;color:var(--dim)}
+.mfoot .it .v{font-family:var(--num);font-weight:700;font-size:15px;color:#fff}
+th.sortable{cursor:pointer;user-select:none;white-space:nowrap}
+th.sortable:hover{color:var(--cy)}
+th.sortable.on{color:var(--cy)}
+.rname{cursor:pointer;border-bottom:1px dashed rgba(34,211,238,.45)}
+.rname:hover{color:var(--cy)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div>
+    <h1><span class="dot"></span>生活技艺工作台<span style="font-size:12px;color:var(--dim);font-weight:400;margin-left:6px">剑网3 · 烹饪 / 医术 / 锻造 / 缝纫</span></h1>
+    <div class="sub">配方与行情均抓自 <b>魔盒 JX3BOX</b> · 配方 <span id="metaLine"></span> · 行情 <span id="presetLine">未载入</span></div>
+  </div>
+  <div class="hstat">
+    <div><div class="k">已录价格</div><div class="v" id="kPrice">0<small>项</small></div></div>
+    <div><div class="k">可算配方</div><div class="v" id="kReady">0<small>个</small></div></div>
+    <div><div class="k">当前最优</div><div class="v" id="kBest" style="font-size:15px">—</div></div>
+  </div>
+</header>
+
+<nav>
+  <button class="on" data-tab="profit">① 收益排行</button>
+  <button data-tab="plan">② 生产计划</button>
+  <button data-tab="path">③ 升级路径</button>
+  <button data-tab="price">④ 材料与价格</button>
+  <button data-tab="info">⑤ 说明</button>
+  <span class="navsum" id="navSum"></span>
+</nav>
+
+<!-- ============ 赚钱榜 ============ -->
+<section class="tab on" id="tab-profit">
+  <div class="card" id="guideCard">
+    <h2>三步上手</h2>
+    <div class="guide">
+      <div class="gstep"><i>01</i><div><b>拉行情</b><span>「④ 材料与价格」选区服拉交易行价；商店料单独填商店价</span></div></div>
+      <div class="gstep"><i>02</i><div><b>排生产</b><span>「① 收益排行」填次数，底部合计总成本 / 总净利 / 总精力</span></div></div>
+      <div class="gstep"><i>03</i><div><b>看清单</b><span>「② 生产计划」拆成买什么、做什么，可逐项改来源</span></div></div>
+    </div>
+    <div class="flex" style="margin-top:16px">
+      <button class="btn" onclick="document.querySelector('nav button[data-tab=\'price\']').click()">去拉取行情</button>
+      <span class="mini">已内置梦江南行情，换区服到「④ 材料与价格」重新拉取</span>
+    </div>
+  </div>
+  <div class="cards" id="kpis"></div>
+  <div class="card">
+    <h2>PVE 常备清单 <span style="font-size:11.5px;color:var(--dim);font-weight:400">消耗品 · 小吃 / 小药 / 宴席 / 磨石 · 近 5 级可做</span></h2>
+    <div class="hint">毛利为负就买成品；在售低于 10 件说明卖不快。</div>
+    <div class="scroll">
+      <table id="tPve">
+        <thead><tr>
+          <th>#</th><th>产出</th><th>定位</th><th class="num">每次产量</th>
+          <th class="num">单件成本</th><th class="num">挂单价</th><th class="num" title="已扣交易行手续费">单件毛利</th>
+          <th class="num">单精力净利</th><th class="num">在售</th><th>结论</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+  <div class="card">
+    <h2>收益排行 <span style="font-size:11.5px;color:var(--dim);font-weight:400">填「次数」即算总账</span></h2>
+    <div class="hint">收入已扣交易行手续费。填生产的<b>次数</b>，右下「合计」就是整体收益。表格按当前排序最多显示 300 行，用筛选缩小范围。</div>
+    <div class="row" style="margin-bottom:12px">
+      <div class="fld"><label>技艺</label>
+        <div class="seg" id="segType"><button class="on" data-v="all">全部</button><button data-v="cooking">烹饪</button><button data-v="medicine">医术</button><button data-v="founding">锻造</button><button data-v="tailoring">缝纫</button></div>
+      </div>
+      <div class="fld"><label>产出定位</label>
+        <div class="seg" id="segKind"><button data-v="pve">PVE 消耗品</button><button class="on" data-v="all">全部</button><button data-v="banquet">宴席</button><button data-v="gear">装备</button><button data-v="mat">半成品</button><button data-v="misc">杂项</button></div>
+      </div>
+      <div class="fld"><label>我的等级</label><input type="number" id="fLevel" value="50" min="1" max="50"></div>
+      <div class="fld"><label>筛选</label>
+        <div class="seg" id="segOnly"><button class="on" data-v="1">仅可做</button><button data-v="0">全部等级</button></div>
+      </div>
+      <div class="fld"><label>交易行手续费 %</label><input type="number" id="feePct" value="5" min="0" max="30" step="0.5" style="width:78px" title="剑三交易行成交后扣除的手续费，默认 5%"></div>
+    </div>
+    <div class="scroll">
+      <table id="tProfit">
+        <thead><tr>
+          <th>#</th><th>配方</th><th>定位</th><th class="num sortable" data-k="level">等级</th>
+          <th class="num sortable" data-k="cost">成本</th><th class="num sortable" data-k="inc" title="已扣交易行手续费">净收入</th><th class="num sortable" data-k="profit">净利</th><th class="num sortable" data-k="rate">利润率</th>
+          <th class="num sortable" data-k="perVigor">单精力</th><th class="num sortable" data-k="stock">在售</th><th class="num">次数</th><th class="num sortable" data-k="total">合计净利</th><th>材料</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div class="sumline" id="sumBar"></div>
+  </div>
+</section>
+
+<!-- ============ 生产计划 ============ -->
+<section class="tab" id="tab-plan">
+  <div class="cards" id="planKpis"></div>
+  <div class="plangrid">
+    <div class="card">
+      <h2>采购 / 自制清单</h2>
+      <div class="hint">按真实来源自动分组，点徽章切来源，单价随之切换。合计 = 实际要花的金币。</div>
+      <div id="planBody"></div>
+    </div>
+    <div class="card">
+      <h2>已排产的配方</h2>
+      <div class="hint">在「收益排行」填次数即进入计划，这里可改次数或移除。</div>
+      <div id="planList"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 升级路径 ============ -->
+<section class="tab" id="tab-path">
+  <div class="card">
+    <h2>升级参数</h2>
+    <div class="hint">逐级挑选「每点经验收益最优」的配方，跨级区间自动换配方。经验需求曲线可在下方展开调整。</div>
+    <div class="row">
+      <div class="fld"><label>当前等级</label><input type="number" id="pFrom" value="1" min="1" max="49"></div>
+      <div class="fld"><label>目标等级</label><input type="number" id="pTo" value="50" min="2" max="50"></div>
+      <div class="fld"><label>技艺（四系独立升级）</label>
+        <div class="seg" id="segPType"><button class="on" data-v="cooking">烹饪</button><button data-v="medicine">医术</button><button data-v="founding">锻造</button><button data-v="tailoring">缝纫</button></div>
+      </div>
+      <div class="fld"><label>策略</label>
+        <select id="pStrategy">
+          <option value="profit">边升边赚（每经验净利最高）</option>
+          <option value="cheap">最省钱（每经验成本最低）</option>
+          <option value="fast">最快（单次经验最高，次数最少）</option>
+        </select>
+      </div>
+      <div class="fld"><label>每周精力</label><input type="number" id="pWeek" value="3000" min="0" step="100"></div>
+      <button class="btn" id="btnPlan">生成方案</button>
+    </div>
+  </div>
+
+  <div class="cards" id="pKpis"></div>
+
+  <div class="card">
+    <h2>分段路径</h2>
+    <div class="hint">同配方连续可用时自动合并区间。</div>
+    <div class="pathline" id="pPath"><div class="empty">点击「生成方案」</div></div>
+  </div>
+
+  <div class="card">
+    <h2>每级经验需求（点击数字可改）</h2>
+    <div class="hint">默认按 <code>60 × 1.075^(L-1)</code> 估算，<b>请按游戏内实际值修正</b>，改完即重算。</div>
+    <div class="flex" style="margin-bottom:10px">
+      <div class="fld"><label>全局倍率</label><input type="number" id="expScale" value="1" step="0.1" min="0.1"></div>
+      <button class="btn ghost" id="btnExpReset">恢复默认曲线</button>
+    </div>
+    <div class="pricegrid" id="expGrid"></div>
+  </div>
+</section>
+
+<!-- ============ 价格录入 ============ -->
+<section class="tab" id="tab-price">
+  <div class="card">
+    <h2>实时物价 · 魔盒交易行</h2>
+    <div class="hint">按你所在区服拉取交易行最低价，一次填满全表。数据源 <code>next2.jx3box.com/api/item-price</code>（重制版）。</div>
+    <div class="row">
+      <div class="fld"><label>区服</label><select id="serverName" style="width:150px"></select></div>
+      <div class="fld"><label>价格口径</label>
+        <select id="pullMode">
+          <option value="low">过滤后最低价（能买到）</option>
+          <option value="median">中位数（更稳）</option>
+        </select>
+      </div>
+      <button class="btn" id="btnPull">拉取全部物价</button>
+      <span class="mini grow" id="pullMsg"></span>
+    </div>
+    <div class="bar" style="margin-top:14px;display:none;max-width:none" id="pullBarWrap"><i id="pullBar" style="width:0%"></i></div>
+  </div>
+
+  <div class="card">
+    <h2>批量粘贴</h2>
+    <div class="hint">每行一条：<code>名称 空格/等号/制表符 价格</code>，单位「金」。支持小数（如 <code>0.35</code> = 35 银）。</div>
+    <textarea id="bulk" rows="6" placeholder="珠贝母 12
+鱼肉 0.8
+调料 = 0.15
+饺子皮	0.2"></textarea>
+    <div class="flex" style="margin-top:10px">
+      <button class="btn" id="btnBulk">导入并覆盖</button>
+      <button class="btn ghost" id="btnExport">导出价格 JSON</button>
+      <button class="btn ghost" id="btnImport">导入价格 JSON</button>
+      <button class="btn ghost" id="btnClear">清空全部价格</button>
+      <input type="file" id="fileJson" accept=".json" style="display:none">
+      <span class="mini grow" id="bulkMsg"></span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>自制品 · 半成品 <span class="mini" style="font-weight:400" id="cntCraft"></span></h2>
+    <div class="hint">本身有配方的中间料，成本按工本递归折算（不看你填的价）。</div>
+    <div class="pricegrid" id="gridMatCraft"></div>
+  </div>
+
+  <div class="card">
+    <h2>商店材料 <span class="mini" style="font-weight:400" id="cntShop"></span></h2>
+    <div class="hint">NPC 商人固定售价（游戏物品描述里写明可购买）。填的是<b>商店价</b>，与交易行价分开存。</div>
+    <div class="pricegrid" id="gridMatShop"></div>
+  </div>
+
+  <div class="card">
+    <h2>交易行材料 <span class="mini" style="font-weight:400" id="cntMarket"></span></h2>
+    <div class="hint">采集 / 掉落 / 无配方材料，随行情波动。上方「拉取全部物价」可刷新。</div>
+    <div class="pricegrid" id="gridMatMarket"></div>
+  </div>
+
+  <div class="card">
+    <h2>自采自得 <span class="mini" style="font-weight:400" id="cntSelf"></span></h2>
+    <div class="hint">可自己采集/刷怪拿到的料。切到「采」按 0 金计（只花时间），切回「行」用行情价。</div>
+    <div class="pricegrid" id="gridMatSelf"></div>
+  </div>
+
+  <div class="card">
+    <h2>自制品 · 卖出价 <span class="mini" style="font-weight:400" id="cntProd"></span></h2>
+    <div class="hint">最终要卖的成品价，改完自动重算。</div>
+    <div class="pricegrid" id="gridProd"></div>
+  </div>
+
+  <div class="card">
+    <h2>半成品 · 卖出价 <span class="mini" style="font-weight:400" id="cntMid"></span></h2>
+    <div class="hint">中间产物的挂卖价。行情好时直接卖比自己搓更划算。</div>
+    <div class="pricegrid" id="gridMid"></div>
+  </div>
+</section>
+
+<!-- ============ 说明 ============ -->
+<section class="tab" id="tab-info">
+  <div class="card">
+    <h2>数据来源</h2>
+    <div class="note">
+      配方经魔盒（JX3BOX）官方游戏数据接口实时抓取：<br>
+      <code>GET node.jx3box.com/manufactures?type=cooking|medicine|founding|tailoring&client=std</code><br>
+      其中 <b>锻造</b> 的接口键为 <code>founding</code>；等级取 <code>mode=simple</code> 返回的 <code>nLevel</code>。<br>
+      材料/成品名称通过 <code>item_merged/id/5_{index}</code> 还原，产物分类（剑 / 帽子 / 宴席 / 制品…）取 <code>manufacture/belong</code>。<br>
+      行情价格来自魔盒交易行采样：<code>GET next2.jx3box.com/api/item-price/{key}/detail?server=区服</code>（单位铜，1 金 = 10000 铜）。<br>
+      物品来源通过 <code>item_merged</code> 的 <code>Desc</code> 字段解析（「小提示：可以在菜贩商购买到」等）结合配方表判定。<br>
+      抓取时间：<b id="metaTime"></b>，共 <b id="metaCount"></b>。RequireLevel = 255 的旧版配方没有等级门槛，等级列显示「—」，按「任意等级可做」参与计算。
+    </div>
+  </div>
+  <div class="card">
+    <h2>计算口径</h2>
+    <div class="note">
+      <b>材料来源</b>按游戏物品属性自动判定，不是按价格猜的：<br>
+      &nbsp;&nbsp;<b>制</b> 自制品／半成品 —— 本身有配方，成本按工本递归折算（最多 4 层）<br>
+      &nbsp;&nbsp;<b>店</b> 商店材料 —— 物品描述写明「可在××商人购买到」，用<b>商店价</b>（与交易行价分开存）<br>
+      &nbsp;&nbsp;<b>行</b> 交易行材料 —— 采集／掉落／无配方，用当前区服行情<br>
+      &nbsp;&nbsp;<b>采</b> 自采自得 —— 自己采集刷怪，按 0 金计（只花时间）<br>
+      点材料旁的徽章即在<b>该材料真实可用的来源</b>间循环，价格随之切换（工本 / 商店价 / 行情 / 0）。<br>
+      <b>成本</b> = Σ 当前来源单价 × 数量。<br>
+      <b>期望收入</b> = Σ（产出概率 × 平均产量 × 售价 × <b>(1 − 手续费)</b>）。手续费默认 <b>5%</b>（交易行成交扣费），可在榜单页右上角调整；「·精」与失败产物已计入。<br>
+      <b>净利</b> = 期望收入 − 成本；<b>单精力</b> = 净利 ÷ 精力消耗。<br>
+      <b>整体收益</b>：在「收益排行」的<b>次数</b>列填生产次数，与「生产计划」联动，汇总总成本／总净收入／总净利／总精力／总经验；计划页还会把材料拆成「要买的」和「要自己做的」，自制中间品的批次、精力、经验一并计入。<br>
+      <b>定位划分</b>：按「技能 + 魔盒产物分类」自动判定，不按名字猜。烹饪 → 小吃（回复/辅助/增强/特殊食品，宴席单列，烹饪材料归半成品）；医术 → 小药；锻造 → 装备（笔/棍/剑/枪/双兵/帽子/上衣/腰带/护手/鞋/马具…）、消耗品（磨石等）、制品归半成品；缝纫 → 装备（帽子/上衣/裤子/鞋/腰带/护手/背包）、制品归半成品。<b>PVE 消耗品</b> = 小吃 + 小药 + 宴席 + 锻造消耗品。<br>
+      <b>在售件数</b> = 该物品交易行全部挂单数量之和。件数 &lt; 10 的高价品属于「有价无市」，算出的利润率不能当作可兑现收益。<br>
+      <b>升级路径</b>：对每个等级 L，在「等级 ≤ L 且材料已定价」的配方中按策略排序取最优，次数 = ⌈该级所需经验 ÷ 单次经验⌉，跨等级自动换配方，同配方连续区间合并展示。<br>
+      <span style="color:var(--warn)">注意</span>：价格需与抓取数据同区服（std 重制版）。精力按「制作一次消耗」计，未含采集耗时。
+    </div>
+  </div>
+  <div class="card">
+    <h2>已知偏差</h2>
+    <div class="note">
+      · 经验需求曲线为估算，务必按游戏实际调整（升级页可逐级改）。<br>
+      · 部分配方需专精 / 声望配方书，表格用 <span class="tag t-exp">专精</span> 标注，成本中未计配方书与专精投入。<br>
+      · 商店价为 NPC 固定售价，魔盒未提供该字段，初始值暂用交易行价填充，请按游戏内实际售价改一次（改后与行情分开保存，重拉行情不会覆盖）。<br>
+      · 产量为区间（如 2~3 个）时按期望值算，未考虑脸黑/脸白方差。<br>
+      · 升级路径只算「制作成本」，未考虑市场容量：卤料、酱料这类材料型配方可能毛利率最高，但一次做几百组未必卖得掉，实际请结合交易行成交量取舍。
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- ============ BOM 拆解弹层 ============ -->
+<div class="modal" id="bomModal">
+  <div class="modalbox">
+    <div class="mhead">
+      <div>
+        <div class="mtitle" id="bomTitle">—</div>
+        <div class="msub" id="bomSub"></div>
+      </div>
+      <button class="mclose" id="bomClose">×</button>
+    </div>
+    <div class="mbody">
+      <div class="bomhead">
+        <span>材料结构</span><span>来源</span><span class="num">单价</span><span class="num">小计</span>
+      </div>
+      <div id="bomBody"></div>
+    </div>
+    <div class="mfoot" id="bomFoot"></div>
+  </div>
+</div>
+
+<script>
+const DATA = __DATA__;
+</script>
+<script>
+/* ================= 状态 ================= */
+const LS = 'jx3craft_prices_v1';
+const state = {
+  prices: {},          // name -> 交易行价(金)
+  shopPrices: {},      // name -> 商店价(金，NPC 固定售价)
+  matSrc: {},          // name -> 'craft' | 'shop' | 'market' | 'self'
+  qty: {},             // recipeKey -> 生产次数
+  depth: {},           // name -> { n:在售件数, t:档数, lo:最低, hi:最高 }
+  server: '',          // 当前行情来源区服
+  presetTs: '',
+  type: 'all',
+  kind: 'all',         // all / pve=小吃小药宴席消耗品 / banquet / gear=装备 / mat=半成品
+  level: 50,
+  only: 1,
+  sortBy: 'profit',
+  sortDir: 1,
+  fee: 5,              // 交易行手续费 %（挂单成交后扣）
+  minPriced: 0,
+  pType: 'cooking',
+  pFrom: 1, pTo: 50,
+  pStrategy: 'profit',
+  pWeek: 3000,
+  expNeed: {},         // level -> exp
+  expScale: 1,
+};
+
+const RECIPES = DATA.recipes;
+const norm = r => Object.assign({}, r, {
+  mats: r.mats.map(m => Array.isArray(m) ? { name: m[0], count: m[1] } : m),
+  prods: r.prods.map(p => Array.isArray(p) ? { name: p[0], min: p[1], max: p[2], prob: p[3] } : p),
+});
+const TABS = ['cooking', 'medicine', 'founding', 'tailoring'];
+const TAB_NAME = { cooking: '烹饪', medicine: '医术', founding: '锻造', tailoring: '缝纫' };
+const TAB_PID = { cooking: 4, medicine: 7, founding: 6, tailoring: 5 };
+const ALL = TABS.flatMap(t => (RECIPES[t] || []).map(norm));
+
+/* 等级：无等级门槛的旧配方按 1 计（任何等级都能做），展示为「—」 */
+const lvOf = r => r.level == null ? 1 : r.level;
+const lvTxt = r => r.level == null ? '—' : r.level;
+
+/* 产出定位：技能 + 魔盒产物分类(Belong) 决定，不是按名字猜 */
+const BELONG = DATA.belongs || {};
+function kindOf(r){
+  if (r._kind) return r._kind;
+  const tab = r.key.split('_')[0];
+  const b = (BELONG[String(TAB_PID[tab])] || {})[String(r.belong)] || '';
+  let k;
+  if (tab === 'cooking') k = r.belong === 60 ? 'banquet' : (b.indexOf('材料') >= 0 ? 'mat' : 'snack');
+  else if (tab === 'medicine') k = b.indexOf('材料') >= 0 ? 'mat' : 'pill';
+  /* 缝纫：制品=半成品；印染/刺绣=附魔类消耗品（河洛纹·印染系列）；其余=装备 */
+  else if (tab === 'tailoring') k = b === '制品' ? 'mat'
+    : (b === '印染' || b === '刺绣' ? 'consumable' : 'gear');
+  /* 锻造：制品=半成品；消耗品=磨石/熔锭（苍生系列）；小玩意/挂件/马具=杂项；其余=装备 */
+  else k = b === '制品' ? 'mat'
+    : (b === '消耗品' ? 'consumable'
+      : (b === '小玩意' || b === '挂件' || b === '马具' ? 'misc' : 'gear'));
+  r._kind = k;
+  return k;
+}
+const KIND_TAG = { snack: ['小吃', 't-cook'], pill: ['小药', 't-med'], banquet: ['宴席', 't-exp'],
+  consumable: ['消耗', 't-cons'], gear: ['装备', 't-gear'], mat: ['半成品', 't-mat'],
+  misc: ['杂项', 't-misc'] };
+const isPve = r => ['snack', 'pill', 'banquet', 'consumable'].indexOf(kindOf(r)) >= 0;
+const kindOk = (r, k) => k === 'all' || (k === 'pve' ? isPve(r) : kindOf(r) === k);
+/* 交易行在售件数（流动性）：件数少 = 有价无市，别按天价算收益 */
+const stockOf = n => (state.depth[n] || {}).n || 0;
+
+/* 材料 / 产物清单 */
+const MATS = [...new Set(ALL.flatMap(r => r.mats.map(m => m.name)))].sort((a,b)=>a.localeCompare(b,'zh'));
+const PRODS = [...new Set(ALL.flatMap(r => r.prods.map(p => p.name)))].sort((a,b)=>a.localeCompare(b,'zh'));
+
+/* ================= 工具 ================= */
+const fmt = (n, d=2) => {
+  if (!isFinite(n)) return '—';
+  const a = Math.abs(n);
+  if (a >= 10000) return (n/10000).toFixed(2) + '万';
+  return n.toFixed(a >= 100 ? 0 : d).replace(/\.0+$/,'');
+};
+const fmtG = n => `<span class="gold">${fmt(n)}</span>金`;
+const esc = s => String(s).replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+
+/* ================= 材料来源（来自游戏物品数据，不是猜的） =================
+   craft  自制 / 半成品 —— 本身有配方，成本按工本递归折算
+   shop   商店材料     —— NPC 商人固定售价（魔盒物品描述里写明"可在XX购买到"）
+   market 交易行采购   —— 随行情波动
+   self   自采自得     —— 采集/掉落，只花时间不计金币
+*/
+const SRC = DATA.sources || {};          // name -> { src, a:[可用来源], m:商人名 }
+const SRC_BADGE = { craft: '制', shop: '店', market: '行', self: '采' };
+const SRC_TIP = { craft: '自制（成本按工本算）', shop: '商店材料（NPC 固定价）', market: '交易行采购', self: '自采自得（不计金币）' };
+const SRC_NAME = { craft: '自制品', shop: '商店材料', market: '交易行材料', self: '自采' };
+
+const recipeByOutput = {};   // 产物名 -> 单位产出成本最低的配方
+const costCache = new Map();
+let buildingIndex = false;
+
+function buildOutputIndex(){
+  buildingIndex = true;
+  Object.keys(recipeByOutput).forEach(k=>delete recipeByOutput[k]);
+  ALL.forEach(r=>{
+    const qty = r.prods.reduce((a, p) => a + (p.min + p.max) / 2 * p.prob / 100, 0) || 1;
+    const c = costLoose(r) / qty;
+    r.prods.forEach(p=>{
+      const cur = recipeByOutput[p.name];
+      if (!cur || c < cur.c) recipeByOutput[p.name] = { r, c };
+    });
+  });
+  buildingIndex = false;
+}
+/* 该材料在游戏里真实可用的来源集合 */
+function availOf(name){
+  const meta = SRC[name] || {};
+  let a = (meta.a || ['market']).slice();
+  if (recipeByOutput[name] && !a.includes('craft')) a.unshift('craft');
+  if (!recipeByOutput[name]) a = a.filter(x => x !== 'craft');
+  if (!a.length) a = ['market'];
+  return a;
+}
+/* 当前选中的来源：用户设定优先，否则用游戏数据的默认来源 */
+function srcOf(name, depth = 0){
+  const a = availOf(name);
+  const o = state.matSrc[name];
+  if (o && a.includes(o)) return o;
+  const def = (SRC[name] || {}).src;
+  if (def && a.includes(def)) return def;
+  return a[0];
+}
+function cycleSrc(name){
+  const a = availOf(name);
+  const cur = srcOf(name);
+  const i = a.indexOf(cur);
+  return a[(i + 1) % a.length];
+}
+/* 商店价：用户填的优先，没填则暂用交易行价兜底（界面会标"未核"） */
+function shopPriceOf(name){
+  const v = state.shopPrices[name];
+  if (v > 0) return v;
+  return state.prices[name] || 0;
+}
+/* 材料/中间品在「当前来源」下的实际单价（金） */
+function priceUnder(name, src, depth = 0){
+  const key = name + '|' + src + '|' + depth;
+  if (costCache.has(key)) return costCache.get(key);
+  let v = 0;
+  if (src === 'self'){
+    v = 0;                                   // 自己采，不计金币
+  }else if (src === 'shop'){
+    v = shopPriceOf(name);
+  }else if (src === 'craft'){
+    const rec = recipeByOutput[name];
+    if (rec && !buildingIndex && depth < 4){
+      const q = rec.r.prods.reduce((a, p) => a + (p.min + p.max) / 2 * p.prob / 100, 0) || 1;
+      const u = costLoose(rec.r, depth + 1) / q;
+      v = u > 0 ? u : (state.prices[name] || 0);   // 工本算不出（下级缺价）则退回行情
+    }else{
+      v = state.prices[name] || 0;
+    }
+  }else{
+    v = state.prices[name] || 0;
+  }
+  costCache.set(key, v);
+  return v;
+}
+function priceOf(name, depth = 0){ return priceUnder(name, srcOf(name), depth); }
+function costLoose(r, depth = 0){
+  let c = 0;
+  for (const m of r.mats) c += priceOf(m.name, depth) * m.count;
+  return c;
+}
+/* 该材料在当前来源下是否有有效价（自采视为有效 0 价） */
+function hasPrice(name){
+  const s = srcOf(name);
+  if (s === 'self') return true;
+  return priceOf(name) > 0;
+}
+/* 严格可算：全部材料有价 */
+function fullyPriced(r){ return r.mats.every(m => hasPrice(m.name)); }
+
+function incomeOf(r){
+  let s = 0;
+  for (const p of r.prods){
+    const avg = (p.min + p.max) / 2;
+    s += avg * (p.prob / 100) * (state.prices[p.name] || 0);
+  }
+  return s * (1 - state.fee / 100);      // 扣除交易行手续费后的净收入
+}
+function stats(r){
+  const cost = costLoose(r);
+  const inc = incomeOf(r);
+  const profit = inc - cost;
+  const vigor = Math.max(r.vigor, 1);
+  return {
+    cost, inc, profit, vigor,
+    rate: cost > 0 ? profit / cost * 100 : (profit > 0 ? 999 : 0),
+    perVigor: profit / vigor,
+    expPerVigor: r.exp / vigor,
+    priced: r.mats.filter(m => hasPrice(m.name)).length,
+    totalMats: r.mats.length,
+    missing: r.mats.filter(m => !hasPrice(m.name)).map(m => m.name),
+  };
+}
+
+/* ================= 渲染：KPI ================= */
+function renderKpis(){
+  const pool = ALL.filter(r => lvOf(r) <= state.level
+    && (state.type === 'all' || r.key.startsWith(state.type))
+    && kindOk(r, state.kind));
+  let ready = 0, odd = 0, best = null, bestV = -Infinity, earn = null, earnV = -Infinity, expv = null, expvV = -Infinity;
+  for (const r of pool){
+    if (!fullyPriced(r)) continue;
+    const s = stats(r);
+    // 收入/成本 > 50 倍 = 钓鱼或占位天价，不参与"最赚"评选
+    if (s.cost > 0 && s.inc / s.cost > 50){ odd++; continue; }
+    ready++;
+    if (s.profit > bestV){ bestV = s.profit; best = { r, s }; }
+    if (s.perVigor > earnV){ earnV = s.perVigor; earn = { r, s }; }
+    if (r.exp > expvV){ expvV = r.exp; expv = { r, s }; }
+  }
+  const pricedCount = Object.values(state.prices).filter(v => v > 0).length;
+  document.getElementById('kPrice').innerHTML = pricedCount + '<small>项</small>';
+  document.getElementById('kReady').innerHTML = ready + '<small>个</small>';
+  document.getElementById('kBest').textContent = best ? best.r.name : '—';
+
+  const el = document.getElementById('kpis');
+  if (!ready || !best || !earn || !expv){
+    el.innerHTML = '';
+    el.style.display = 'none';
+    return;
+  }
+  el.style.display = 'grid';
+  el.innerHTML = `
+    <div class="kpi"><div class="l">单次最赚</div><div class="v">${fmt(best.s.profit)}<span style="font-size:13px">金</span></div>
+      <div class="d"><b>${esc(best.r.name)}</b> · Lv.${lvTxt(best.r)} · ${best.s.rate.toFixed(0)}% 利润率${stockOf(best.r.prods[0].name) ? ` · 在售 ${stockOf(best.r.prods[0].name)}` : ''}</div></div>
+    <div class="kpi"><div class="l">单精力最赚</div><div class="v">${fmt(earn.s.perVigor,3)}<span style="font-size:13px">金/点</span></div>
+      <div class="d"><b>${esc(earn.r.name)}</b> · 每次 ${earn.s.vigor} 精力</div></div>
+    <div class="kpi"><div class="l">单次冲级最快</div><div class="v">${expv.r.exp}<span style="font-size:13px">经验/次</span></div>
+      <div class="d"><b>${esc(expv.r.name)}</b> · Lv.${lvTxt(expv.r)} · 耗 ${expv.s.vigor} 精力</div></div>
+    <div class="kpi"><div class="l">可算配方</div><div class="v">${ready}<span style="font-size:13px">/${pool.length}</span></div>
+      <div class="d">Lv.${state.level} 及以下${odd ? ` · 另有 ${odd} 个报价异常未计入` : ''}</div></div>`;
+}
+
+/* ================= 渲染：赚钱榜 ================= */
+let sortDir = -1;
+function renderProfit(){
+  const tb = document.querySelector('#tProfit tbody');
+  const rows = [];
+  for (const r of ALL){
+    if (state.type !== 'all' && !r.key.startsWith(state.type)) continue;
+    if (!kindOk(r, state.kind)) continue;
+    if (state.only && lvOf(r) > state.level) continue;
+    const s = stats(r);
+    if (s.priced === 0 && s.inc === 0) continue;
+    if (s.priced < state.minPriced) continue;
+    rows.push({ r, s });
+  }
+  const getv = {
+    level: x => lvOf(x.r), cost: x => x.s.cost, inc: x => x.s.inc,
+    stock: x => stockOf(x.r.prods[0].name), profit: x => x.s.profit,
+    rate: x => x.s.rate, vigor: x => x.s.vigor, perVigor: x => x.s.perVigor, expv: x => x.r.exp,
+    total: x => x.s.profit * (state.qty[x.r.key] || 0),
+  };
+  const fv = getv[state.sortBy] || getv.profit;
+  const sus = s => (s.cost > 0 && s.inc / s.cost > 50 ? 1 : 0);
+  rows.sort((a, b) => {
+    const fa = fullyPriced(a.r) ? 1 : 0, fb = fullyPriced(b.r) ? 1 : 0;
+    if (fa !== fb) return fb - fa;          // 材料齐全的永远排前面
+    const qa = sus(a.s), qb = sus(b.s);
+    if (qa !== qb) return qa - qb;          // 报价异常的沉到最后
+    return (fv(b) - fv(a)) * state.sortDir;
+  });
+  // 表头高亮
+  document.querySelectorAll('#tProfit th.sortable').forEach(th => {
+    const on = th.dataset.k === state.sortBy;
+    th.classList.toggle('on', on);
+    th.textContent = th.textContent.replace(/[\s▲▼]+$/, '') + (on ? (state.sortDir > 0 ? ' ▼' : ' ▲') : '');
+  });
+
+  if (!rows.length){
+    tb.innerHTML = `<tr><td colspan="13" class="empty">该筛选下没有可算的配方 —— 换「技艺 / 定位」，或去「④ 材料与价格」拉行情（装备类多为拾取绑定，交易行没有报价）</td></tr>`;
+    return;
+  }
+  tb.innerHTML = rows.slice(0, 300).map(({ r, s }, i) => {
+    const miss = s.missing.length ? `<span class="tag t-miss" title="未定价：${esc(s.missing.join('、'))}">缺 ${s.missing.length}</span>` : '';
+    const odd = s.cost > 0 && s.inc / s.cost > 50
+      ? `<span class="tag t-miss" title="单次收入是材料成本的 ${Math.round(s.inc / s.cost)} 倍，交易行多半只有钓鱼/占位天价，不可当真">价疑</span>` : '';
+    const mats = r.mats.map(m => {
+      const sb = SRC_BADGE[srcOf(m.name)];
+      return `${esc(m.name)}×${m.count}<span class="mini" style="font-size:9.5px">${sb}</span>`;
+    }).join('，');
+    const [kt, kc] = KIND_TAG[kindOf(r)] || ['其他', 't-mat'];
+    const main = r.prods[0];
+    const dp = state.depth[main.name] || null;
+    const st = dp ? dp.n : 0;
+    const stHtml = !dp ? '<span class="mini">—</span>'
+      : `<span class="${st < 10 ? 'neg' : (st >= 100 ? 'pos' : '')}" title="交易行在售 ${st} 件 · ${dp.t} 档 · 报价 ${dp.lo}~${dp.hi} 金">${st}</span>`;
+    const times = state.qty[r.key] || 0;
+    const total = s.profit * times;
+    return `<tr>
+      <td class="num" style="color:var(--dim)">${i + 1}</td>
+      <td style="color:#fff"><span class="rname" data-rk="${r.key}" title="点击拆解材料结构">${esc(r.name)}</span> ${r.expertise ? '<span class="tag t-exp">专精</span>' : ''} ${miss}${odd}</td>
+      <td><span class="tag ${kc}">${kt}</span></td>
+      <td class="num">${lvTxt(r)}</td>
+      <td class="num">${fmt(s.cost)}</td>
+      <td class="num">${fmt(s.inc)}</td>
+      <td class="num ${s.profit >= 0 ? 'pos' : 'neg'}">${s.profit >= 0 ? '+' : ''}${fmt(s.profit)}</td>
+      <td class="num ${s.profit >= 0 ? 'pos' : 'neg'}">${s.cost > 0 ? s.rate.toFixed(0) + '%' : '—'}</td>
+      <td class="num ${s.perVigor >= 0 ? 'pos' : 'neg'}">${s.perVigor >= 100 ? s.perVigor.toFixed(0) : s.perVigor.toFixed(2)}</td>
+      <td class="num stock">${stHtml}</td>
+      <td class="num"><input class="qin" type="number" min="0" step="1" value="${times || ''}" placeholder="0" data-qk="${r.key}"></td>
+      <td class="num ${total >= 0 ? 'pos' : 'neg'}">${times ? (total >= 0 ? '+' : '') + fmt(total) : '—'}</td>
+      <td class="mini" style="max-width:300px;overflow:hidden;text-overflow:ellipsis" title="${esc(mats.replace(/<[^>]+>/g, ''))}">${mats}</td>
+    </tr>`;
+  }).join('');
+
+  document.querySelectorAll('#tProfit .qin').forEach(inp => {
+    inp.onchange = () => {
+      const k = inp.dataset.qk;
+      const v = Math.max(0, Math.floor(+inp.value || 0));
+      if (v > 0) state.qty[k] = v; else delete state.qty[k];
+      savePrices(); renderProfit(); renderPlan();
+    };
+  });
+  renderSumBar(rows);
+}
+
+/* 底部合计：把填了次数的配方加总 */
+function planTotals(){
+  const t = { n: 0, times: 0, cost: 0, inc: 0, profit: 0, vigor: 0, exp: 0, items: [] };
+  for (const r of ALL){
+    const times = state.qty[r.key] || 0;
+    if (times <= 0) continue;
+    const s = stats(r);
+    t.n++; t.times += times;
+    t.cost += s.cost * times; t.inc += s.inc * times; t.profit += s.profit * times;
+    t.vigor += r.vigor * times; t.exp += r.exp * times;
+    t.items.push({ r, times, s });
+  }
+  return t;
+}
+function renderSumBar(rows){
+  const el = document.getElementById('sumBar');
+  if (!el) return;
+  const t = planTotals();
+  const nav = document.getElementById('navSum');
+  if (nav) nav.innerHTML = t.n ? `计划 <b>${t.n}</b> 个配方 · 净利 <b>${fmt(t.profit)}</b> 金` : '';
+  if (!t.n){
+    el.innerHTML = `<div class="it"><span class="k">合计</span><span class="v" style="font-size:13px;color:var(--dim)">在「次数」列填生产次数，这里汇总总成本 / 总收益</span></div>`;
+    return;
+  }
+  const days = t.vigor / Math.max(state.pWeek, 1);
+  const pd = planDetail();
+  const vg = pd.vigor, ex = pd.exp;
+  el.innerHTML = `
+    <div class="it"><span class="k">已排产</span><span class="v">${t.n}<span style="font-size:11px"> 个配方 · ${t.times} 次</span></span></div>
+    <div class="it"><span class="k">总成本</span><span class="v">${fmt(t.cost)}</span></div>
+    <div class="it"><span class="k">总净收入</span><span class="v">${fmt(t.inc)}</span></div>
+    <div class="it"><span class="k">总净利</span><span class="v ${t.profit >= 0 ? 'pos' : 'neg'}">${t.profit >= 0 ? '+' : ''}${fmt(t.profit)}</span></div>
+    <div class="it"><span class="k">总精力<span style="color:var(--dim)">（含自制）</span></span><span class="v">${Math.round(vg).toLocaleString()}</span></div>
+    <div class="it"><span class="k">总经验</span><span class="v" style="color:#c084fc">${Math.round(ex).toLocaleString()}</span></div>
+    <div class="it"><span class="k">折合工时</span><span class="v">${(vg / Math.max(state.pWeek, 1)) < 1 ? ((vg / Math.max(state.pWeek, 1)) * 24).toFixed(0) + ' 小时' : (vg / Math.max(state.pWeek, 1)).toFixed(1) + ' 天'}</span></div>
+    <div class="grow"></div>
+    <button class="btn" onclick="document.querySelector('nav button[data-tab=\\'plan\\']').click()">看生产计划 →</button>`;
+}
+
+/* ================= 生产计划 ================= */
+function planDetail(){
+  const leaves = new Map();      // 需要采购/自采的末端材料
+  const steps = new Map();       // 需要自己做的半成品
+  let vigor = 0, exp = 0;
+  const visit = (name, qty, depth) => {
+    const src = srcOf(name);
+    const rec = recipeByOutput[name];
+    if (src === 'craft' && rec && depth < 4){
+      const q = expectedQty(rec.r) || 1;
+      const batches = qty / q;
+      const st = steps.get(name) || { name, batches: 0, qty: 0, r: rec.r };
+      st.batches += batches; st.qty += qty; steps.set(name, st);
+      vigor += rec.r.vigor * batches;
+      exp += rec.r.exp * batches;
+      for (const m of rec.r.mats) visit(m.name, m.count * batches, depth + 1);
+      return;
+    }
+    const p = leaves.get(name) || { name, qty: 0 };
+    p.qty += qty; leaves.set(name, p);
+  };
+  for (const r of ALL){
+    const times = state.qty[r.key] || 0;
+    if (times <= 0) continue;
+    vigor += r.vigor * times;
+    exp += r.exp * times;
+    for (const m of r.mats) visit(m.name, m.count * times, 0);
+  }
+  let buy = 0;
+  for (const [, p] of leaves){
+    p.src = srcOf(p.name);
+    p.unit = priceUnder(p.name, p.src);
+    p.amount = p.unit * p.qty;
+    buy += p.amount;
+  }
+  return { leaves, steps, vigor, exp, buy };
+}
+
+function renderPlan(){
+  const t = planTotals();
+  const k = document.getElementById('planKpis');
+  const body = document.getElementById('planBody');
+  const list = document.getElementById('planList');
+  if (!k || !body || !list) return;
+
+  if (!t.n){
+    k.innerHTML = '';
+    body.innerHTML = `<div class="empty" style="padding:34px 0;text-align:center">
+      还没有排产 —— 去「① 收益排行」在<b>次数</b>列填个数，或用下面的快捷排产</div>
+      <div class="flex" style="justify-content:center;gap:8px">
+        <button class="btn ghost" onclick="quickPlan('core')">四个核心品各做 20 次</button>
+        <button class="btn ghost" onclick="quickPlan('pve')">PVE 常备前 5 各做 10 次</button>
+      </div>`;
+    list.innerHTML = `<div class="mini">未选配方</div>`;
+    return;
+  }
+
+  const d = planDetail();
+  const days = d.vigor / Math.max(state.pWeek, 1);
+  k.innerHTML = `
+    <div class="kpi"><div class="l">总净利</div><div class="v ${t.profit >= 0 ? 'pos' : 'neg'}">${t.profit >= 0 ? '+' : ''}${fmt(t.profit)}<span style="font-size:13px">金</span></div>
+      <div class="d">${t.n} 个配方 · ${t.times} 次生产</div></div>
+    <div class="kpi"><div class="l">总采购</div><div class="v">${fmt(d.buy)}<span style="font-size:13px">金</span></div>
+      <div class="d">${d.leaves.size} 种材料 · 净利润率 ${t.cost > 0 ? (t.profit / t.cost * 100).toFixed(0) : '—'}%</div></div>
+    <div class="kpi"><div class="l">总精力</div><div class="v">${Math.round(d.vigor).toLocaleString()}</div>
+      <div class="d">按每日 ${state.pWeek.toLocaleString()} 精力 ≈ ${days < 1 ? (days * 24).toFixed(0) + ' 小时' : days.toFixed(1) + ' 天'}</div></div>
+    <div class="kpi"><div class="l">总经验</div><div class="v" style="color:#c084fc">${Math.round(d.exp).toLocaleString()}</div>
+      <div class="d">含自制中间品产生的经验</div></div>`;
+
+  // 自制步骤
+  let html = '';
+  if (d.steps.size){
+    const rows = [...d.steps.values()].sort((a, b) => b.batches - a.batches);
+    html += `<div class="pgroup"><h3>自制品 · 需要自己做 <em>${rows.length} 项</em></h3>
+      <table><thead><tr><th>中间品</th><th>来源</th><th class="num">需做批次</th><th class="num">产出</th><th class="num">精力</th><th class="num">折合成本</th></tr></thead><tbody>
+      ${rows.map(x => {
+        const q = expectedQty(x.r);
+        return `<tr><td style="color:#fff">${esc(x.name)}</td>
+          <td><span class="tag t-exp">自制</span></td>
+          <td class="num">${Math.ceil(x.batches)}</td>
+          <td class="num">${fmt(x.qty, 0)}</td>
+          <td class="num">${Math.round(x.r.vigor * x.batches)}</td>
+          <td class="num">${fmt(priceUnder(x.name, 'craft') * x.qty)}</td></tr>`;
+      }).join('')}</tbody></table></div>`;
+  }
+
+  // 采购清单按来源分组
+  const GRP = [
+    ['shop', '商店材料', '去 NPC 商人买，价格固定'],
+    ['market', '交易行材料', '挂单买入，随行情'],
+    ['self', '自采自得', '自己采集/刷怪，不计金币'],
+  ];
+  const bySrc = { shop: [], market: [], self: [] };
+  for (const [, p] of d.leaves) (bySrc[p.src] || (bySrc[p.src] = [])).push(p);
+
+  for (const [s, label, note] of GRP){
+    const arr = (bySrc[s] || []).sort((a, b) => b.amount - a.amount);
+    if (!arr.length) continue;
+    const sum = arr.reduce((a, x) => a + x.amount, 0);
+    html += `<div class="pgroup"><h3><span class="tag ${s === 'shop' ? 't-cook' : (s === 'self' ? 't-exp' : 't-med')}">${SRC_BADGE[s]}</span>${label}
+      <em>${arr.length} 种 · 合计 ${fmt(sum)} 金</em></h3>
+      <table><thead><tr><th>材料</th><th>来源</th><th class="num">需要</th><th class="num">单价</th><th class="num">金额</th></tr></thead><tbody>
+      ${arr.map(x => `<tr><td style="color:#fff">${esc(x.name)}</td>
+        <td><i class="src" data-plan-src="${esc(x.name)}" style="font-style:normal;font-size:10px;padding:0 5px;border-radius:4px;background:rgba(34,211,238,.14);cursor:pointer" title="${esc(SRC_NAME[x.src])} · 点击切换来源">${SRC_BADGE[x.src]}</i></td>
+        <td class="num">${fmt(x.qty, 0)}</td>
+        <td class="num">${fmt(x.unit)}</td>
+        <td class="num">${x.amount ? fmt(x.amount) : '—'}</td></tr>`).join('')}
+      </tbody></table></div>`;
+  }
+  if (!html) html = '<div class="empty">该计划无需额外材料</div>';
+  body.innerHTML = html;
+
+  body.querySelectorAll('[data-plan-src]').forEach(el => {
+    el.onclick = () => {
+      const n = el.dataset.planSrc;
+      state.matSrc[n] = cycleSrc(n);
+      costCache.clear(); buildOutputIndex(); savePrices(); renderGrids(); refreshAll();
+    };
+  });
+
+  // 已排产列表
+  const rows = [...t.items].sort((a, b) => b.s.profit * b.times - a.s.profit * a.times);
+  list.innerHTML = rows.map(x => {
+    const tot = x.s.profit * x.times;
+    return `<div class="pcell" style="margin-bottom:6px" data-k="${x.r.key}">
+      <span style="flex:1">${esc(x.r.name)}<small>单次 ${x.s.profit >= 0 ? '+' : ''}${fmt(x.s.profit)} · ${x.r.exp} 经验 / ${x.r.vigor} 精力</small></span>
+      <input class="qin" type="number" min="0" step="1" value="${x.times}" data-k="${x.r.key}">
+      <i class="mini ${tot >= 0 ? 'pos' : 'neg'}" style="width:64px;text-align:right">${tot >= 0 ? '+' : ''}${fmt(tot)}</i>
+      <button class="mclose" style="font-size:15px" data-del="${x.r.key}" title="移出计划">×</button>
+    </div>`;
+  }).join('') + `<div class="flex" style="margin-top:10px">
+      <button class="btn ghost" id="btnClearPlan">清空计划</button>
+      <span class="mini grow">改次数即时重算</span></div>`;
+
+  list.querySelectorAll('input[data-k]').forEach(inp => {
+    inp.onchange = () => {
+      const k = inp.dataset.k;
+      const v = Math.max(0, Math.floor(+inp.value || 0));
+      if (v > 0) state.qty[k] = v; else delete state.qty[k];
+      savePrices(); renderProfit(); renderPlan();
+    };
+  });
+  list.querySelectorAll('[data-del]').forEach(b => {
+    b.onclick = () => {
+      delete state.qty[b.dataset.del];
+      savePrices(); renderProfit(); renderPlan();
+    };
+  });
+  const cp = document.getElementById('btnClearPlan');
+  if (cp) cp.onclick = () => { state.qty = {}; savePrices(); renderProfit(); renderPlan(); };
+}
+
+/* ================= 经验曲线 ================= */
+/* 快捷排产 */
+function quickPlan(mode){
+  state.qty = {};
+  if (mode === 'core'){
+    ALL.filter(r => CORE.includes(r.name)).forEach(r => state.qty[r.key] = 20);
+  }else{
+    ALL.filter(r => isPve(r) && lvOf(r) > state.level - 5 && fullyPriced(r))
+      .sort((a, b) => stats(b).perVigor - stats(a).perVigor)
+      .slice(0, 5).forEach(r => state.qty[r.key] = 10);
+  }
+  savePrices(); renderProfit(); renderPlan();
+}
+function defaultExp(L){ return Math.round(60 * Math.pow(1.075, L - 1)); }
+function expOf(L){
+  const v = state.expNeed[L];
+  return v != null ? v : Math.round(defaultExp(L) * state.expScale);
+}
+function renderExpGrid(){
+  document.getElementById('expGrid').innerHTML = Array.from({length: 49}, (_, i) => {
+    const L = i + 1;
+    const v = expOf(L);
+    return `<div class="pcell ${state.expNeed[L] != null ? 'filled' : ''}">
+      <span>Lv.${L} → ${L + 1}</span>
+      <input type="number" data-lv="${L}" value="${v}" min="0" step="10"></div>`;
+  }).join('');
+  document.querySelectorAll('#expGrid input').forEach(inp => {
+    inp.onchange = () => {
+      state.expNeed[+inp.dataset.lv] = Math.max(0, +inp.value || 0);
+      saveExp(); plan();
+      inp.parentElement.classList.add('filled');
+    };
+  });
+}
+function saveExp(){ try{ localStorage.setItem('jx3craft_exp_v1', JSON.stringify({n: state.expNeed, s: state.expScale})); }catch(e){} }
+
+/* ================= 升级路径 ================= */
+function buildPlan(){
+  const from = Math.min(state.pFrom, state.pTo - 1);
+  const to = Math.max(state.pTo, from + 1);
+  const pool = ALL.filter(r => state.pType === 'all' || r.key.startsWith(state.pType));
+  const steps = [];
+  let totalCost = 0, totalInc = 0, totalVigor = 0, totalExp = 0, totalMake = 0, missingLevels = [];
+
+  for (let L = from; L < to; L++){
+    const need = expOf(L);
+    if (need <= 0) continue;
+    const cands = [];
+    for (const r of pool){
+      if (r.level == null) continue;          // 无等级门槛的旧/秘籍配方不参与升级路径
+      if (r.level > L || !(r.exp > 0)) continue;
+      if (!fullyPriced(r)) continue;
+      const s = stats(r);
+      // 报价异常（收入超成本 50 倍）的配方不参与路径规划，否则会算出天文收益
+      if (s.cost > 0 && s.inc / s.cost > 50) continue;
+      cands.push({ r, s });
+    }
+    if (!cands.length){ missingLevels.push(L); continue; }
+    let best = null, bestKey = -Infinity;
+    for (const { r, s } of cands){
+      let k;
+      if (state.pStrategy === 'fast') k = r.exp;                    // 单次经验最高 → 次数最少
+      else if (state.pStrategy === 'cheap') k = s.cost > 0 ? -s.cost / r.exp : 0;
+      else k = s.profit / r.exp;      // 每点经验净利
+      if (k > bestKey){ bestKey = k; best = { r, s }; }
+    }
+    const times = Math.ceil(need / best.r.exp);
+    const cost = best.s.cost * times;
+    const inc = best.s.inc * times;
+    const vigor = best.s.vigor * times;
+    totalCost += cost; totalInc += inc; totalVigor += vigor;
+    totalExp += need; totalMake += times;
+    steps.push({ L, need, r: best.r, s: best.s, times, cost, inc, vigor, profit: inc - cost, perExp: (inc - cost) / need });
+  }
+  return { steps, totalCost, totalInc, totalVigor, totalExp, totalMake, missingLevels, from, to };
+}
+
+function plan(){
+  const p = buildPlan();
+  const el = document.getElementById('pPath');
+  const k = document.getElementById('pKpis');
+  if (!p.steps.length){
+    el.innerHTML = `<div class="empty">没有可用配方 —— 请先在「价格录入」把目标等级段的材料价填上</div>`;
+    k.innerHTML = '';
+    return;
+  }
+  // 合并连续区间
+  const merged = [];
+  for (const s of p.steps){
+    const last = merged[merged.length - 1];
+    if (last && last.r.key === s.r.key){ last.to = s.L + 1; last.times += s.times; last.cost += s.cost; last.inc += s.inc; last.vigor += s.vigor; last.need += s.need; }
+    else merged.push({ ...s, from: s.L, to: s.L + 1 });
+  }
+  const net = p.totalInc - p.totalCost;
+  const weeks = state.pWeek > 0 ? p.totalVigor / state.pWeek : 0;
+
+  k.innerHTML = `
+    <div class="kpi"><div class="l">总制作次数</div><div class="v">${p.totalMake.toLocaleString()}<span style="font-size:13px">次</span></div>
+      <div class="d">累计 ${p.totalExp.toLocaleString()} 经验 · Lv.${p.from}→${p.to}</div></div>
+    <div class="kpi"><div class="l">总消耗精力</div><div class="v">${p.totalVigor.toLocaleString()}</div>
+      <div class="d">约 <b>${weeks.toFixed(1)}</b> 周（${state.pWeek}/周）</div></div>
+    <div class="kpi"><div class="l">总成本</div><div class="v">${fmt(p.totalCost)}</div>
+      <div class="d">卖出回笼 ${fmt(p.totalInc)} 金</div></div>
+    <div class="kpi"><div class="l">净投入</div><div class="v" style="color:${net > 0 ? 'var(--ok)' : 'var(--bad)'}">${net > 0 ? '+' : ''}${fmt(net)}</div>
+      <div class="d">${net > 0 ? '全程还能赚' : '需自掏'} ${fmt(Math.abs(net))} 金</div></div>`;
+
+  const maxCost = Math.max(...merged.map(m => Math.abs(m.inc - m.cost)), 1);
+  el.innerHTML = merged.map(m => {
+    const np = m.inc - m.cost;
+    const w = Math.min(100, Math.abs(np) / maxCost * 100);
+    return `<div class="pstep" style="border-left-color:${np >= 0 ? 'var(--ok)' : 'var(--bad)'}">
+      <div class="lv">Lv.${m.from}–${m.to}</div>
+      <div>
+        <div class="nm">${esc(m.r.name)} ${m.r.expertise ? '<span class="tag t-exp">专精</span>' : ''}
+          <span class="mini">· 单次 ${m.r.exp} 经验 / ${m.s.vigor} 精力</span></div>
+        <div class="nt">×${m.times.toLocaleString()} 次 · 成本 ${fmt(m.cost)} 金 · 回笼 ${fmt(m.inc)} 金 · 耗精力 ${m.vigor.toLocaleString()}</div>
+        <div class="bar"><i style="width:${w}%;background:${np >= 0 ? 'linear-gradient(90deg,#34d399,#22d3ee)' : 'linear-gradient(90deg,#f87171,#8b5cf6)'}"></i></div>
+      </div>
+      <div class="rt"><div class="${np >= 0 ? 'pos' : 'neg'}" style="font-size:14px;font-weight:600">${np >= 0 ? '+' : ''}${fmt(np)} 金</div>
+        <div class="mini">${(np / m.need).toFixed(2)} 金/经验</div></div>
+    </div>`;
+  }).join('') + (p.missingLevels.length
+    ? `<div class="pstep" style="border-left-color:var(--warn)"><div class="lv" style="color:var(--warn)">缺口</div>
+       <div><div class="nm">以下等级没有可用配方（材料未定价）</div>
+       <div class="nt">Lv.${p.missingLevels.join('、')}</div></div><div></div></div>` : '');
+}
+
+/* ================= 价格录入 ================= */
+function renderGrids(){
+  const cell = (name, isProd) => {
+    /* 成品 / 半成品：这一栏填的是「挂卖价」，来源无关，恒为交易行口径 */
+    if (isProd){
+      const mk = state.prices[name] || 0;
+      const rec = recipeByOutput[name];
+      const cc = rec ? priceUnder(name, 'craft') : 0;
+      const st = stockOf(name);
+      const profit = cc > 0 && mk > 0 ? mk * (1 - state.fee / 100) - cc : 0;
+      const sub = cc > 0
+        ? `工本 ${fmt(cc)}${mk > 0 ? (profit >= 0 ? ` · 利 ${fmt(profit)}` : ` · 亏 ${fmt(-profit)}`) : ''}`
+        : (st ? `在售 ${st}` : '无行情');
+      return `<div class="pcell s-market ${mk > 0 ? 'filled' : 'zero'}" data-n="${esc(name)}" data-prod="1">
+        <span title="${esc(name)}｜挂卖价（交易行）＝卖出去的价格${cc ? '；工本 ' + fmt(cc) + ' 金/件' : ''}"><i class="nm">${esc(name)}</i><small>${sub}</small></span>
+        <i class="src" style="background:rgba(34,211,238,.12);color:#7dd3fc" title="卖出价：填你实际挂的价">卖</i>
+        <input type="number" step="0.01" min="0" value="${mk ? (+mk).toFixed(2) : ''}" placeholder="—">
+      </div>`;
+    }
+    const src = srcOf(name);
+    const avail = availOf(name);
+    const badge = SRC_BADGE[src];
+    const meta = SRC[esc(name)] || SRC[name] || {};
+    const locked = src === 'craft' || src === 'self';    // 工本/自采不可直接改
+    let v = src === 'shop' ? state.shopPrices[name] : state.prices[name];
+    if (locked) v = priceUnder(name, src);
+    const eff = priceUnder(name, src);
+    // 其它来源的价，方便横向比较（切换即换价）
+    const alt = avail.filter(s => s !== src).map(s => {
+      const p = priceUnder(name, s);
+      return `<em class="a-${s}">${SRC_BADGE[s]} ${p > 0 ? fmt(p) : '—'}</em>`;
+    }).join('');
+    const tip = `${esc(name)}｜当前：${SRC_NAME[src]}${meta.m ? '（' + meta.m + '）' : ''}｜可选：${avail.map(s => SRC_NAME[s]).join(' / ')}`;
+    const mk2 = state.prices[name] || 0;
+    let sub;
+    if (src === 'craft'){
+      const d = mk2 - eff;
+      sub = mk2 <= 0 ? '工本' : (Math.abs(d) < Math.max(1, mk2 * 0.02) ? '与买价相当' : (d > 0 ? `自制省 ${fmt(d)}` : `自制贵 ${fmt(-d)}`));
+    }
+    else if (src === 'self') sub = '自采不计金';
+    else sub = avail.length > 1 ? alt : '';
+    return `<div class="pcell s-${src} ${eff > 0 ? 'filled' : ''} ${eff > 0 ? '' : 'zero'}" data-n="${esc(name)}">
+      <span title="${esc(tip)}"><i class="nm">${esc(name)}</i><small>${sub}</small></span>
+      <i class="src" data-src="${src}" title="${esc(tip)}｜点击切换来源">${badge}</i>
+      <input type="number" step="0.01" min="0" value="${v ? (+v).toFixed(2) : ''}" placeholder="${locked ? '自动' : '—'}" ${locked ? 'disabled' : ''}>
+    </div>`;
+  };
+  const groups = { craft: [], shop: [], market: [], self: [] };
+  MATS.forEach(n => groups[srcOf(n)].push(n));
+  document.getElementById('gridMatCraft').innerHTML = groups.craft.map(n => cell(n)).join('') || '<div class="mini">无</div>';
+  document.getElementById('gridMatShop').innerHTML = groups.shop.map(n => cell(n)).join('') || '<div class="mini">无</div>';
+  document.getElementById('gridMatMarket').innerHTML = groups.market.map(n => cell(n)).join('') || '<div class="mini">无</div>';
+  const gs = document.getElementById('gridMatSelf');
+  if (gs) gs.innerHTML = groups.self.map(n => cell(n)).join('') || '<div class="mini">无</div>';
+  // 产物分两层：只做终端的「自制品」/ 既是产物又是材料的「半成品」
+  const matSet = new Set(MATS);
+  const useCnt = {};
+  ALL.forEach(r => r.prods.forEach(p => { useCnt[p.name] = (useCnt[p.name] || 0) + 1; }));
+  const byUse = (a, b) => (useCnt[b] || 0) - (useCnt[a] || 0) || a.localeCompare(b, 'zh');
+  const CAP = 240;
+  const finals = PRODS.filter(n => !matSet.has(n)).sort(byUse);
+  const mids = PRODS.filter(n => matSet.has(n)).sort(byUse);
+  document.getElementById('gridProd').innerHTML = finals.slice(0, CAP).map(n => cell(n, true)).join('') || '<div class="mini">无</div>';
+  document.getElementById('gridMid').innerHTML = mids.slice(0, CAP).map(n => cell(n, true)).join('') || '<div class="mini">无</div>';
+  const set = (id, t) => { const e = document.getElementById(id); if (e) e.textContent = t; };
+  const capTxt = (n) => n > CAP ? `（共 ${n} 种，按引用次数列出前 ${CAP}；其余用「拉取全部物价」或批量粘贴录入）` : `（${n} 种）`;
+  set('cntCraft', `（${groups.craft.length} 种）`);
+  set('cntShop', `（${groups.shop.length} 种）`);
+  set('cntMarket', `（${groups.market.length} 种）`);
+  set('cntSelf', `（${groups.self.length} 种）`);
+  set('cntProd', capTxt(finals.length));
+  set('cntMid', capTxt(mids.length));
+
+  document.querySelectorAll('.pcell input').forEach(inp => {
+    if (inp.disabled) return;
+    inp.onchange = () => {
+      const cellEl = inp.closest('.pcell');
+      const n = cellEl.dataset.n;
+      const src = cellEl.dataset.prod ? 'market' : srcOf(n);
+      const v = parseFloat(inp.value);
+      const store = (src === 'shop') ? state.shopPrices : state.prices;
+      if (isNaN(v) || v <= 0) delete store[n];
+      else store[n] = v;
+      costCache.clear(); buildOutputIndex(); savePrices(); renderGrids(); refreshAll();
+    };
+  });
+  // 点击来源徽标：在该材料真实可用的来源之间循环（制/店/行/采），价格随来源切换
+  document.querySelectorAll('.pcell .src[data-src]').forEach(b => {
+    b.onclick = () => {
+      const n = b.closest('.pcell').dataset.n;
+      state.matSrc[n] = cycleSrc(n);
+      costCache.clear(); buildOutputIndex(); savePrices(); renderGrids(); refreshAll();
+    };
+  });
+}
+function expectedQty(r){
+  return r.prods.reduce((a, p) => a + (p.min + p.max) / 2 * (p.prob / 100), 0) || 0;
+}
+function savePrices(){
+  try{ localStorage.setItem(LS, JSON.stringify({ prices: state.prices, shopPrices: state.shopPrices, qty: state.qty,
+    depth: state.depth, matSrc: state.matSrc, server: state.server, ts: state.presetTs, fee: state.fee })); }catch(e){}
+}
+function loadPrices(){
+  try{
+    const d = JSON.parse(localStorage.getItem(LS) || 'null');
+    if (!d || typeof d !== 'object') return;
+    if (d.prices){
+      state.prices = d.prices;
+      state.shopPrices = d.shopPrices || {};
+      state.qty = d.qty || {};
+      state.depth = d.depth || {};
+      state.matSrc = d.matSrc || {};
+      state.server = d.server || '';
+      state.presetTs = d.ts || '';
+      if (d.fee != null) state.fee = +d.fee;
+    }else if (!Array.isArray(d)){
+      state.prices = d;            // 兼容旧版纯价格对象
+    }
+  }catch(e){}
+}
+
+function refreshAll(){
+  costCache.clear();
+  renderKpis(); renderPve(); renderProfit(); renderPlan(); plan();
+  const pricedCount = Object.values(state.prices).filter(v => v > 0).length;
+  const shopCount = Object.values(state.shopPrices).filter(v => v > 0).length;
+  document.getElementById('kPrice').innerHTML = (pricedCount + shopCount) + '<small>项</small>';
+  const gc = document.getElementById('guideCard');
+  if (gc) gc.style.display = pricedCount ? 'none' : '';
+}
+/* ================= BOM 拆解弹层 ================= */
+let bomOpen = null;
+const bomFold = new Set();
+
+function openBom(key){
+  const r = ALL.find(x => x.key === key);
+  if (!r) return;
+  bomOpen = r; bomFold.clear();
+  document.getElementById('bomModal').classList.add('on');
+  renderBom();
+}
+function closeBom(){
+  document.getElementById('bomModal').classList.remove('on');
+  bomOpen = null;
+}
+
+function bomRow(name, count, depth, path, seen){
+  const src = srcOf(name);
+  const unit = priceOf(name);
+  const sub = unit * count;
+  const rec = recipeByOutput[name];
+  const can = src === 'craft' && rec && depth < 4 && !seen.has(name);
+  const open = can && !bomFold.has(path);
+  const badge = SRC_BADGE[src];
+  let out = `<div class="bomrow">
+    <div class="nm" style="padding-left:${depth * 18}px">
+      ${can ? `<button class="fold" data-p="${esc(path)}">${open ? '▾' : '▸'}</button>` : '<span style="display:inline-block;width:12px"></span>'}
+      <b>${esc(name)}</b><span class="qty">×${count}</span>
+    </div>
+    <i class="src s-${src}" data-src="${esc(name)}" title="${SRC_TIP[src]}${availOf(name).length > 1 ? ' · 点击切换（' + availOf(name).map(x => SRC_NAME[x]).join('→') + '）' : ' · 唯一来源'}">${badge}</i>
+    <span class="num">${fmt(unit)}</span>
+    <span class="num">${fmt(sub)}</span>
+  </div>`;
+  if (open){
+    const ns = new Set(seen); ns.add(name);
+    const cr = rec.r;
+    for (const m of cr.mats) out += bomRow(m.name, m.count, depth + 1, path + '>' + m.name, ns);
+    // 自制单件成本提示
+    const q = cr.prods.reduce((a, p) => a + (p.min + p.max) / 2 * p.prob / 100, 0) || 1;
+    out += `<div class="bomrow" style="opacity:.62">
+      <div class="nm" style="padding-left:${(depth + 1) * 18}px"><span style="display:inline-block;width:12px"></span>
+        <b style="font-size:11.5px;font-weight:400">└ 自制 ${cr.name} 每次产 ${q.toFixed(1)} 个，折合 ${fmt(costLoose(cr) / q)} 金/件</b></div>
+      <i class="src" style="visibility:hidden">·</i><span class="num mini">${fmt(costLoose(cr))}</span><span class="num mini">整次</span>
+    </div>`;
+  }
+  return out;
+}
+
+function renderBom(){
+  const r = bomOpen; if (!r) return;
+  const s = stats(r);
+  const q = expectedQty(r);
+  const [kt, kc] = KIND_TAG[kindOf(r)] || ['其他', 't-mat'];
+  document.getElementById('bomTitle').textContent = r.name;
+  document.getElementById('bomSub').innerHTML =
+    `<span class="tag ${kc}">${kt}</span> Lv.${lvTxt(r)} · 每次 ${r.exp} 经验 / ${r.vigor} 精力 · 每次产 ${q.toFixed(1)} 个`;
+  const seen = new Set([r.name]);
+  document.getElementById('bomBody').innerHTML =
+    r.mats.map(m => bomRow(m.name, m.count, 0, m.name, seen)).join('') ||
+    '<div class="empty">该配方无材料</div>';
+
+  const gross = s.inc / Math.max(1 - state.fee / 100, 0.01);
+  document.getElementById('bomFoot').innerHTML = `
+    <div class="it"><span class="k">材料成本 / 次</span><span class="v">${fmt(s.cost)}</span></div>
+    <div class="it"><span class="k">单件成本</span><span class="v">${fmt(s.cost / q)}</span></div>
+    <div class="it"><span class="k">挂单价 / 件</span><span class="v">${fmt(gross / q)}</span></div>
+    <div class="it"><span class="k">扣 ${state.fee}% 后收入</span><span class="v">${fmt(s.inc)}</span></div>
+    <div class="it"><span class="k">单次净利</span><span class="v ${s.profit >= 0 ? 'pos' : 'neg'}">${s.profit >= 0 ? '+' : ''}${fmt(s.profit)}</span></div>
+    <div class="it"><span class="k">单精力净利</span><span class="v ${s.perVigor >= 0 ? 'pos' : 'neg'}">${s.perVigor.toFixed(2)}</span></div>
+    <div class="grow"></div>
+    <div class="mini" style="text-align:right">点材料右侧的 <b style="color:var(--cy)">制 / 店 / 行 / 采</b> 切来源，价格随之切换<br>全表成本与计划即时重算</div>`;
+
+  document.getElementById('bomBody').onclick = e => {
+    const f = e.target.closest('.fold');
+    if (f){
+      const p = f.dataset.p;
+      if (bomFold.has(p)) bomFold.delete(p); else bomFold.add(p);
+      renderBom(); return;
+    }
+    const src = e.target.closest('.src');
+    if (src && src.dataset.src){
+      const n = src.dataset.src;
+      state.matSrc[n] = cycleSrc(n);
+      costCache.clear(); buildOutputIndex(); savePrices();
+      renderGrids(); refreshAll(); renderBom();
+    }
+  };
+}
+function expectedQty(r){
+  return r.prods.reduce((a, p) => a + (p.min + p.max) / 2 * p.prob / 100, 0) || 1;
+}
+/* 重点关注的 PVE 核心消耗品 */
+const CORE = ['中原破阵丹', '云芝竹沥羹', '云州刀削面', '五气归元丹'];
+const isCore = r => CORE.includes(r.name);
+function renderPve(){
+  const tb = document.querySelector('#tPve tbody');
+  if (!tb) return;
+  const rows = ALL
+    .filter(r => {
+      if (state.type !== 'all' && !r.key.startsWith(state.type)) return false;
+      if (isCore(r)) return true;                       // 核心品永远在列表里
+      if (lvOf(r) <= state.level - 5) return false;     // 其余只取近 5 级
+      return isPve(r);                                  // 小吃小药 + 宴席 + 锻造消耗品
+    })
+    .filter(r => r.mats.some(m => hasPrice(m.name)))
+    .map(r => {
+      const s = stats(r);
+      const q = expectedQty(r);
+      const unitCost = s.cost / q;
+      // s.inc 已扣手续费，这里还原成交易行挂单价，方便和游戏内对账
+      const unitPrice = (s.inc / Math.max(1 - state.fee / 100, 0.01)) / q;
+      const unitProfit = (s.inc - s.cost) / q;              // 税后毛利
+      // 报价合理性：挂单价是成本的 50 倍以上，基本是钓鱼/占位天价，不可采信
+      const suspect = unitCost > 0 && unitPrice / unitCost > 50;
+      return { r, s, q, unitCost, unitPrice, unitProfit, suspect, core: isCore(r) };
+    })
+    .sort((a, b) => {
+      if (a.suspect !== b.suspect) return a.suspect ? 1 : -1;
+      if (a.core !== b.core) return a.core ? -1 : 1;
+      return b.s.perVigor - a.s.perVigor;
+    });
+
+  if (!rows.length){
+    tb.innerHTML = `<tr><td colspan="10" class="empty">暂无可用数据 —— 先在「④ 材料与价格」拉取区服行情</td></tr>`;
+    return;
+  }
+  tb.innerHTML = rows.map((x, i) => {
+    const { r, s, q, unitCost, unitPrice, unitProfit, suspect } = x;
+    const [kt, kc] = KIND_TAG[kindOf(r)] || ['其他', 't-mat'];
+    const main = r.prods[0];
+    const dp = state.depth[main.name] || null;
+    const st = dp ? dp.n : 0;
+    const stHtml = !dp ? '<span class="mini">—</span>'
+      : `<span class="${st < 10 ? 'neg' : (st >= 100 ? 'pos' : '')}">${st}</span>`;
+    let verdict, vc;
+    if (!main || !state.prices[main.name]){ verdict = '成品无报价'; vc = 'mini'; }
+    else if (suspect){ verdict = '报价异常，先核实'; vc = 'neg'; }
+    else if (unitProfit < 0){ verdict = '材料比成品贵，直接买'; vc = 'neg'; }
+    else if (dp && st < 10){ verdict = '能做，但不好出手'; vc = 'warn'; }
+    else if (unitProfit > 0){ verdict = '自制划算'; vc = 'pos'; }
+    else { verdict = '持平'; vc = 'mini'; }
+    const qty = main.min === main.max ? `${main.min}` : `${main.min}~${main.max}`;
+    const subTip = r.prods[1] ? `另有 ${r.prods[1].name}（${r.prods[1].prob}%）` : '';
+    return `<tr>
+      <td class="num" style="color:var(--dim)">${i + 1}</td>
+      <td style="color:#fff"><span class="rname" data-rk="${r.key}" title="点击拆解材料结构">${esc(r.name)}</span><span class="mini" style="margin-left:6px">Lv.${lvTxt(r)}</span>${x.core ? ' <span class="tag t-core">★核心</span>' : ''}</td>
+      <td><span class="tag ${kc}">${kt}</span></td>
+      <td class="num" title="${esc(subTip)}">${qty}<span class="mini">个</span></td>
+      <td class="num">${fmt(unitCost)}</td>
+      <td class="num">${fmt(unitPrice)}</td>
+      <td class="num ${unitProfit >= 0 ? 'pos' : 'neg'}">${suspect ? '<span style="opacity:.45">' : ''}${unitProfit >= 0 ? '+' : ''}${fmt(unitProfit)}${suspect ? '</span>' : ''}</td>
+      <td class="num ${s.perVigor >= 0 ? 'pos' : 'neg'}">${s.perVigor.toFixed(2)}</td>
+      <td class="num stock">${stHtml}</td>
+      <td class="mini ${vc}">${verdict}</td>
+    </tr>`;
+  }).join('');
+}
+
+/* ================= 事件 ================= */
+function bindSeg(id, key, cb){
+  const box = document.getElementById(id);
+  box.querySelectorAll('button').forEach(b => {
+    b.onclick = () => {
+      box.querySelectorAll('button').forEach(x => x.classList.remove('on'));
+      b.classList.add('on');
+      state[key] = isNaN(+b.dataset.v) ? b.dataset.v : +b.dataset.v;
+      costCache.clear(); refreshAll();
+      if (key.startsWith('p')) plan();
+    };
+  });
+}
+/* ================= 物价接口说明 =================
+   实时价格来自魔盒交易行采样接口:
+     GET https://next2.jx3box.com/api/item-price/{5_index}/detail?server=区服名
+     返回 data.prices[].unit_price,单位「铜」,1 金 = 10000 铜
+   页面内直接跨域 fetch;若被浏览器策略拦截(file:// 打开偶尔会),
+   改用 python scripts/fetch_prices.py --server 乾坤一掷 生成 JSON 再点「导入价格 JSON」。
+*/
+const SERVERS = ['梦江南','乾坤一掷','唯我独尊','天鹅坪','蝶恋花','斗转星移','剑胆琴心','破阵子','绝代天骄',
+  '龙争虎斗','白帝城','四海一家','风云再起','三生石','烟雨扬州','长安城','洛阳城','幽月轮','金蛇漫舞','笑傲江湖'];
+function init(){
+  const sSel = document.getElementById('serverName');
+  sSel.innerHTML = SERVERS.map(x => `<option value="${x}">${x}</option>`).join('');
+  loadPrices();
+  // 预置行情：本地缓存为空，或缓存的区服与内置行情不一致时，用内置行情覆盖
+  if (DATA.preset && DATA.preset.prices){
+    const hasCache = Object.keys(state.prices).length > 0;
+    const sameServer = hasCache && state.server === DATA.preset.server;
+    if (!sameServer){
+      state.prices = Object.assign({}, DATA.preset.prices);
+      state.depth = Object.assign({}, DATA.preset.depth || {});
+      state.server = DATA.preset.server;
+      state.presetTs = DATA.preset.fetchedAt;
+      savePrices();
+    }
+    if (!Object.keys(state.depth).length) state.depth = Object.assign({}, DATA.preset.depth || {});
+    const sn = document.getElementById('serverName');
+    if (sn) sn.value = state.server || DATA.preset.server;
+  }
+  try{ const e = JSON.parse(localStorage.getItem('jx3craft_exp_v1') || 'null'); if (e){ state.expNeed = e.n || {}; state.expScale = e.s || 1; } }catch(err){}
+  // 商店价与交易行价分仓：商店材料先同步一份行情作初值，之后各改各的互不影响
+  MATS.forEach(n => {
+    const meta = SRC[n];
+    if (meta && meta.src === 'shop' && !state.shopPrices[n] && state.prices[n] > 0){
+      state.shopPrices[n] = state.prices[n];
+    }
+  });
+  savePrices();
+  document.getElementById('metaLine').textContent = DATA.generatedAt;
+  document.getElementById('presetLine').innerHTML = DATA.preset
+    ? `<b>${esc(DATA.preset.server)}</b> ${esc(DATA.preset.fetchedAt)}（${Object.values(DATA.preset.prices).filter(v => v > 0).length} 项）`
+    : '未载入';
+  document.getElementById('metaTime').textContent = DATA.generatedAt;
+  document.getElementById('metaCount').textContent = TABS.map(t => `${TAB_NAME[t]} ${(RECIPES[t] || []).length}`).join(' + ') + ' 个配方';
+
+  document.querySelectorAll('nav button').forEach(b => b.onclick = () => {
+    document.querySelectorAll('nav button').forEach(x => x.classList.remove('on'));
+    document.querySelectorAll('.tab').forEach(x => x.classList.remove('on'));
+    b.classList.add('on');
+    const tab = b.dataset.tab;
+    document.getElementById('tab-' + tab).classList.add('on');
+    if (tab === 'plan') renderPlan();
+    if (tab === 'price') renderGrids();
+  });
+
+  bindSeg('segType', 'type');
+  bindSeg('segKind', 'kind');
+  bindSeg('segOnly', 'only');
+  bindSeg('segPType', 'pType');
+
+  document.getElementById('fLevel').oninput = e => { state.level = +e.target.value || 50; refreshAll(); };
+  document.querySelectorAll('#tProfit th.sortable').forEach(th => {
+    th.onclick = () => {
+      const k = th.dataset.k;
+      if (state.sortBy === k) state.sortDir *= -1;
+      else { state.sortBy = k; state.sortDir = 1; }
+      renderProfit();
+    };
+  });
+  const feeEl = document.getElementById('feePct');
+  feeEl.value = state.fee;
+  feeEl.oninput = e => {
+    state.fee = Math.max(0, Math.min(30, +e.target.value || 0));
+    savePrices(); refreshAll();
+  };
+
+  const pf = document.getElementById('pFrom'), pt = document.getElementById('pTo');
+  pf.oninput = () => { state.pFrom = +pf.value || 1; plan(); };
+  pt.oninput = () => { state.pTo = +pt.value || 50; plan(); };
+  document.getElementById('pStrategy').onchange = e => { state.pStrategy = e.target.value; plan(); };
+  document.getElementById('pWeek').oninput = e => { state.pWeek = +e.target.value || 0; plan(); };
+  document.getElementById('btnPlan').onclick = () => { costCache.clear(); refreshAll(); plan(); };
+
+  document.getElementById('expScale').value = state.expScale;
+  document.getElementById('expScale').onchange = e => {
+    state.expScale = +e.target.value || 1; state.expNeed = {}; saveExp(); renderExpGrid(); plan();
+  };
+  document.getElementById('btnExpReset').onclick = () => {
+    state.expNeed = {}; state.expScale = 1;
+    document.getElementById('expScale').value = 1; saveExp(); renderExpGrid(); plan();
+  };
+
+  // 批量导入
+  document.getElementById('btnBulk').onclick = () => {
+    const txt = document.getElementById('bulk').value.trim();
+    if (!txt) return;
+    let ok = 0, fail = [];
+    txt.split(/\n/).forEach(line => {
+      const m = line.trim().match(/^(.+?)[\s=,，\t]+([\d.]+)$/);
+      if (!m){ if (line.trim()) fail.push(line.trim()); return; }
+      const name = m[1].trim(), v = parseFloat(m[2]);
+      if (!(name in MATS_ALL) && !(name in PROD_ALL)){ fail.push(name); return; }
+      state.prices[name] = v; ok++;
+    });
+    savePrices(); renderGrids(); refreshAll(); plan();
+    document.getElementById('bulkMsg').innerHTML =
+      `导入 <b style="color:var(--ok)">${ok}</b> 条` + (fail.length ? `，<span style="color:var(--bad)">${fail.length} 条未识别：${esc(fail.slice(0,5).join('、'))}</span>` : '');
+  };
+  document.getElementById('btnExport').onclick = () => {
+    const blob = new Blob([JSON.stringify({ prices: state.prices, shopPrices: state.shopPrices, matSrc: state.matSrc, qty: state.qty, expNeed: state.expNeed, expScale: state.expScale, exportedAt: new Date().toISOString() }, null, 2)], { type: 'application/json' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'jx3-craft-prices.json';
+    a.click();
+  };
+  document.getElementById('btnImport').onclick = () => document.getElementById('fileJson').click();
+  document.getElementById('fileJson').onchange = e => {
+    const f = e.target.files[0]; if (!f) return;
+    const rd = new FileReader();
+    rd.onload = () => {
+      try{
+        const d = JSON.parse(rd.result);
+        state.prices = d.prices || d;
+        if (d.shopPrices) state.shopPrices = d.shopPrices;
+        if (d.matSrc) state.matSrc = d.matSrc;
+        if (d.qty) state.qty = d.qty;
+        if (d.expNeed) state.expNeed = d.expNeed;
+        if (d.expScale) state.expScale = d.expScale;
+        savePrices(); saveExp();
+        document.getElementById('expScale').value = state.expScale;
+        renderGrids(); renderExpGrid(); refreshAll(); plan();
+        document.getElementById('bulkMsg').innerHTML = '<b style="color:var(--ok)">JSON 已导入</b>';
+      }catch(err){ document.getElementById('bulkMsg').textContent = 'JSON 解析失败'; }
+    };
+    rd.readAsText(f);
+  };
+  document.getElementById('btnClear').onclick = () => {
+    if (!confirm('清空所有已录价格（含商店价）？')) return;
+    state.prices = {}; state.shopPrices = {}; state.qty = {};
+    savePrices(); renderGrids(); refreshAll(); plan();
+  };
+  /* ---------- 魔盒交易行实时物价 ---------- */
+
+  const pullMsg = document.getElementById('pullMsg');
+  const pullWrap = document.getElementById('pullBarWrap');
+  const pullBar = document.getElementById('pullBar');
+
+  async function pullPrices(server, mode, onProgress){
+    const entries = Object.entries(DATA.keys || {});
+    const queue = entries.slice();
+    const out = {}, dep = {};
+    let done = 0, ok = 0, fail = 0;
+    const worker = async () => {
+      while (queue.length){
+        const [name, key] = queue.shift();
+        try{
+          const r = await fetch(`https://next2.jx3box.com/api/item-price/${key}/detail?server=${encodeURIComponent(server)}`);
+          const j = await r.json();
+          const arr = ((j.data || {}).prices) || [];
+          const rows = arr.map(x => [+x.unit_price, +x.n_count || 0]).filter(r => r[0] > 0);
+          if (rows.length){
+            let pick;
+            if (mode === 'median'){
+              // 挂单量加权中位数，避免被"只挂 1 件的天价"带偏
+              const total = rows.reduce((a, r) => a + Math.max(r[1], 1), 0);
+              let acc = 0; pick = rows[0][0];
+              for (const [v, c] of rows.slice().sort((a, b) => a[0] - b[0])){
+                acc += Math.max(c, 1);
+                if (acc >= total / 2){ pick = v; break; }
+              }
+            }else{
+              pick = Math.min(...rows.map(r => r[0]));   // 交易行最低挂单价 = 能买到的价
+            }
+            out[name] = +(pick / 10000).toFixed(2);
+            const vs = rows.map(r => r[0]).sort((a, b) => a - b);
+            dep[name] = { n: rows.reduce((a, r) => a + Math.max(r[1], 1), 0), t: rows.length,
+                          lo: +(vs[0] / 10000).toFixed(2), hi: +(vs[vs.length - 1] / 10000).toFixed(2) };
+            ok++;
+          } else fail++;
+        }catch(e){ fail++; }
+        done++;
+        if (onProgress && done % 4 === 0) onProgress(done, entries.length);
+      }
+    };
+    await Promise.all(Array.from({ length: 5 }, worker));
+    if (onProgress) onProgress(entries.length, entries.length);
+    return { out, dep, ok, fail, total: entries.length };
+  }
+
+  document.getElementById('btnPull').onclick = async () => {
+    const server = document.getElementById('serverName').value.trim();
+    if (!server){ alert('请先填区服名，如「乾坤一掷」'); return; }
+    const mode = document.getElementById('pullMode').value;
+    const btn = document.getElementById('btnPull');
+    btn.disabled = true; btn.style.opacity = .55;
+    pullWrap.style.display = 'block'; pullBar.style.width = '0%';
+    pullMsg.innerHTML = `正在拉取 <b>${esc(server)}</b> 的物价…`;
+    const t0 = Date.now();
+    try{
+      const res = await pullPrices(server, mode, (d, t) => {
+        pullBar.style.width = (d / t * 100).toFixed(1) + '%';
+        pullMsg.textContent = `拉取中 ${d}/${t}…`;
+      });
+      const n = Object.keys(res.out).length;
+      if (!n){
+        pullMsg.innerHTML = `<span style="color:var(--bad)">该区服没有取到任何价格 —— 区服名是否正确？（如「乾坤一掷」「唯我独尊」「天鹅坪」）</span>`;
+      }else{
+        Object.assign(state.prices, res.out);
+        Object.assign(state.depth, res.dep || {});
+        state.server = server;
+        savePrices(); renderGrids(); refreshAll(); plan();
+        document.getElementById('presetLine').innerHTML = `<b>${esc(server)}</b> 实时拉取 ${new Date().toLocaleString('zh-CN', { hour12: false })}（${n} 项）`;
+        pullMsg.innerHTML = `<b style="color:var(--ok)">成功 ${n} 项</b> · 无报价 ${res.fail} 项 · 用时 ${((Date.now() - t0) / 1000).toFixed(1)}s`;
+        pullBar.style.width = '100%';
+      }
+    }catch(e){
+      pullMsg.innerHTML = `<span style="color:var(--bad)">拉取失败：${esc(e.message)}（浏览器可能拦截了跨域请求，改用 http 服务打开本页）</span>`;
+    }finally{
+      btn.disabled = false; btn.style.opacity = 1;
+    }
+  };
+
+
+  window.MATS_ALL = Object.fromEntries(MATS.map(m => [m, 1]));
+  window.PROD_ALL = Object.fromEntries(PRODS.map(p => [p, 1]));
+
+  buildOutputIndex();
+  renderGrids();
+  renderExpGrid();
+
+  /* BOM 弹层 */
+  document.getElementById('bomClose').onclick = closeBom;
+  document.getElementById('bomModal').onclick = e => { if (e.target.id === 'bomModal') closeBom(); };
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeBom(); });
+  document.body.addEventListener('click', e => {
+    const el = e.target.closest('.rname');
+    if (el) openBom(el.dataset.rk);
+  });
+
+  refreshAll();
+  plan();
+}
+init();
+</script>
+</body>
+</html>
