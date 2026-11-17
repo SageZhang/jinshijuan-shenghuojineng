@@ -22,28 +22,89 @@ body{
                    linear-gradient(90deg,rgba(120,180,255,.032) 1px,transparent 1px);
   background-size:auto,auto,44px 44px,44px 44px;
 }
-.wrap{max-width:1440px;margin:0 auto;padding:22px 26px 80px}
-header{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap;padding-bottom:16px;position:relative}
-header::after{content:'';position:absolute;left:0;right:0;bottom:0;height:1px;background:linear-gradient(90deg,var(--cy),rgba(139,92,246,.6),transparent)}
-h1{font-size:23px;font-weight:700;letter-spacing:.5px;display:flex;align-items:center;gap:11px}
-h1 .dot{width:9px;height:9px;border-radius:50%;background:var(--cy);box-shadow:0 0 14px var(--cy);animation:pulse 2.4s infinite}
+/* ================= 骨架：左侧菜单 / 右侧内容 ================= */
+.app{display:flex;height:100vh;overflow:hidden}
+.side{
+  width:236px;flex:none;display:flex;flex-direction:column;position:relative;z-index:5;
+  background:linear-gradient(180deg,#0b1420,#080e17);border-right:1px solid var(--line);
+}
+.side::after{content:'';position:absolute;top:0;bottom:0;right:-1px;width:1px;pointer-events:none;
+  background:linear-gradient(180deg,rgba(34,211,238,.45),rgba(139,92,246,.3),transparent)}
+.brand{display:flex;align-items:center;gap:11px;padding:19px 17px 16px;border-bottom:1px solid rgba(120,180,255,.09)}
+.brand .logo{
+  width:34px;height:34px;flex:none;border-radius:9px;display:grid;place-items:center;
+  font-size:16px;font-weight:700;color:#04121a;font-family:'KaiTi','STKaiti',serif;
+  background:linear-gradient(135deg,var(--cy),var(--vi));box-shadow:0 0 18px rgba(34,211,238,.32);
+}
+.brand .bt b{display:block;font-size:13.5px;color:#fff;letter-spacing:.4px;line-height:1.2}
+.brand .bt span{display:block;font-size:9px;color:var(--dim);letter-spacing:1.5px;margin-top:4px;font-family:var(--num)}
+.sidebody{flex:1;overflow:auto;padding:12px 10px 6px}
+.sidebody::-webkit-scrollbar{width:6px}
+.sidebody::-webkit-scrollbar-thumb{background:rgba(120,180,255,.14);border-radius:3px}
+.navlabel{font-size:9.5px;color:#5b6c85;letter-spacing:1.7px;padding:11px 11px 7px;font-family:var(--num)}
+nav.menu{display:flex;flex-direction:column;gap:3px;margin:0 0 4px}
+nav.menu button{
+  position:relative;display:flex;align-items:center;gap:10px;width:100%;text-align:left;
+  background:transparent;border:0;border-radius:8px;color:#93a6bf;
+  padding:9px 11px;font-size:13px;cursor:pointer;transition:.16s;font-weight:500;
+}
+nav.menu button i{font-style:normal;font-size:11px;color:#5f7591;width:14px;text-align:center;transition:.16s}
+nav.menu button:hover{background:rgba(120,180,255,.06);color:var(--tx)}
+nav.menu button.on{
+  background:linear-gradient(90deg,rgba(34,211,238,.15),rgba(139,92,246,.08));
+  color:#fff;box-shadow:inset 0 0 0 1px rgba(34,211,238,.22);
+}
+nav.menu button.on i{color:var(--cy)}
+nav.menu button.on::before{
+  content:'';position:absolute;left:-10px;top:6px;bottom:6px;width:3px;border-radius:0 3px 3px 0;
+  background:linear-gradient(180deg,var(--cy),var(--vi));box-shadow:0 0 12px rgba(34,211,238,.55);
+}
+.sidefoot{border-top:1px solid rgba(120,180,255,.09);padding:12px 17px 14px;display:flex;flex-direction:column;gap:7px}
+.sf-row{display:flex;align-items:center;justify-content:space-between;font-size:11px;color:#6f819a;gap:8px}
+.sf-row b{color:#c3d3e6;font-family:var(--num);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:132px}
+.sf-row b.ok{color:var(--ok)}
+
+.main{flex:1;min-width:0;display:flex;flex-direction:column;overflow:hidden}
+.topbar{
+  flex:none;display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap;
+  padding:15px 26px 13px;background:rgba(8,14,22,.72);backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);position:relative;z-index:4;
+}
+.topbar::after{content:'';position:absolute;left:0;right:0;bottom:-1px;height:1px;
+  background:linear-gradient(90deg,rgba(34,211,238,.55),rgba(139,92,246,.4),transparent)}
+h1{font-size:19px;font-weight:700;letter-spacing:.5px;display:flex;align-items:center;gap:10px}
+h1 .dot{width:8px;height:8px;border-radius:50%;background:var(--cy);box-shadow:0 0 14px var(--cy);animation:pulse 2.4s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
 .sub{color:var(--dim);font-size:12px;margin-top:6px;letter-spacing:.3px}
 .sub b{color:var(--cy);font-weight:600}
 .hstat{display:flex;gap:26px}
 .hstat div{text-align:right}
-.hstat .k{font-size:11px;color:var(--dim);letter-spacing:.6px}
-.hstat .v{font-family:var(--num);font-size:18px;font-weight:600;color:#fff;margin-top:2px}
+.hstat .k{font-size:10.5px;color:var(--dim);letter-spacing:.6px}
+.hstat .v{font-family:var(--num);font-size:17px;font-weight:600;color:#fff;margin-top:2px}
 .hstat .v small{font-size:11px;color:var(--dim);font-weight:400}
 
-nav{display:flex;gap:6px;margin:18px 0 20px;flex-wrap:wrap}
-nav button{
-  background:rgba(255,255,255,.03);border:1px solid var(--line);color:var(--dim);
-  padding:9px 18px;border-radius:9px;cursor:pointer;font-size:13.5px;transition:.18s;font-weight:500;
+.content{flex:1;overflow:auto;padding:17px 26px 60px;scroll-behavior:smooth}
+.content::-webkit-scrollbar{width:10px;height:10px}
+.content::-webkit-scrollbar-thumb{background:rgba(120,180,255,.16);border-radius:5px}
+.content::-webkit-scrollbar-track{background:transparent}
+
+.tab{display:none}.tab.on{display:block;animation:fade .22s ease}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+@media(max-width:900px){
+  .app{flex-direction:column;height:auto;min-height:100vh;overflow:visible}
+  .side{width:100%;flex-direction:column}
+  .brand{padding:12px 14px}
+  .sidebody{display:flex;align-items:center;gap:6px;overflow-x:auto;padding:8px 10px}
+  .navlabel{display:none}
+  nav.menu{flex-direction:row;gap:6px;margin:0 6px 0 0}
+  nav.menu button{width:auto;white-space:nowrap;padding:8px 12px;font-size:12.5px}
+  nav.menu button.on::before{display:none}
+  .sidefoot{flex-direction:row;flex-wrap:wrap;gap:14px;padding:9px 14px}
+  .main{overflow:visible}
+  .content{overflow:visible;padding:12px 14px 50px}
+  .topbar{padding:12px 14px}
 }
-nav button:hover{color:var(--tx);border-color:rgba(34,211,238,.4)}
-nav button.on{background:linear-gradient(135deg,rgba(34,211,238,.16),rgba(139,92,246,.16));color:#fff;border-color:rgba(34,211,238,.55);box-shadow:0 0 18px rgba(34,211,238,.13)}
-.tab{display:none}.tab.on{display:block}
 
 .card{background:linear-gradient(180deg,rgba(17,28,43,.92),rgba(13,21,33,.92));border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin-bottom:16px}
 .card h2{font-size:14px;font-weight:600;letter-spacing:.6px;color:#fff;margin-bottom:4px;display:flex;align-items:center;gap:8px}
@@ -196,11 +257,38 @@ th.sortable.on{color:var(--cy)}
 </style>
 </head>
 <body>
-<div class="wrap">
-<header>
+<div class="app">
+<aside class="side">
+  <div class="brand">
+    <div class="logo"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M12 2.6l7.4 4.2v6.4c0 4.3-3.1 7-7.4 8.6-4.3-1.6-7.4-4.3-7.4-8.6V6.8L12 2.6z"/><path d="M12 7.6v8.2M8.6 11.4h6.8"/></svg></div>
+    <div class="bt"><b>生活技艺工作台</b><span>JX3 CRAFT CONSOLE</span></div>
+  </div>
+  <div class="sidebody">
+    <div class="navlabel">分析</div>
+    <nav class="menu">
+      <button class="on" data-tab="profit"><i>◈</i>收益排行</button>
+      <button data-tab="plan"><i>◇</i>生产计划</button>
+      <button data-tab="path"><i>△</i>升级路径</button>
+    </nav>
+    <div class="navlabel">数据</div>
+    <nav class="menu">
+      <button data-tab="price"><i>◎</i>材料与价格</button>
+      <button data-tab="info"><i>※</i>说明</button>
+    </nav>
+  </div>
+  <div class="sidefoot">
+    <div class="sf-row"><span>区服</span><b id="sideServer">未载入</b></div>
+    <div class="sf-row"><span>行情</span><b id="sideTime">—</b></div>
+    <div class="sf-row"><span>配方</span><b id="sideCount">—</b></div>
+    <div class="sf-row"><span>状态</span><b class="ok" id="sideStatus">就绪</b></div>
+  </div>
+</aside>
+
+<main class="main">
+<header class="topbar">
   <div>
-    <h1><span class="dot"></span>生活技艺工作台<span style="font-size:12px;color:var(--dim);font-weight:400;margin-left:6px">剑网3 · 烹饪 / 医术 / 锻造 / 缝纫</span></h1>
-    <div class="sub">配方与行情均抓自 <b>魔盒 JX3BOX</b> · 配方 <span id="metaLine"></span> · 行情 <span id="presetLine">未载入</span></div>
+    <h1><span class="dot"></span><span id="pageTitle">收益排行</span></h1>
+    <div class="sub" id="pageSub">按成品算工本、净收入与单精力收益 · 数据抓自 <b>魔盒 JX3BOX</b></div>
   </div>
   <div class="hstat">
     <div><div class="k">已录价格</div><div class="v" id="kPrice">0<small>项</small></div></div>
@@ -209,27 +297,20 @@ th.sortable.on{color:var(--cy)}
   </div>
 </header>
 
-<nav>
-  <button class="on" data-tab="profit">① 收益排行</button>
-  <button data-tab="plan">② 生产计划</button>
-  <button data-tab="path">③ 升级路径</button>
-  <button data-tab="price">④ 材料与价格</button>
-  <button data-tab="info">⑤ 说明</button>
-  <span class="navsum" id="navSum"></span>
-</nav>
+<div class="content">
 
 <!-- ============ 赚钱榜 ============ -->
 <section class="tab on" id="tab-profit">
   <div class="card" id="guideCard">
     <h2>三步上手</h2>
     <div class="guide">
-      <div class="gstep"><i>01</i><div><b>拉行情</b><span>「④ 材料与价格」选区服拉交易行价；商店料单独填商店价</span></div></div>
-      <div class="gstep"><i>02</i><div><b>排生产</b><span>「① 收益排行」填次数，底部合计总成本 / 总净利 / 总精力</span></div></div>
-      <div class="gstep"><i>03</i><div><b>看清单</b><span>「② 生产计划」拆成买什么、做什么，可逐项改来源</span></div></div>
+      <div class="gstep"><i>01</i><div><b>拉行情</b><span>「材料与价格」选区服拉交易行价；商店料单独填商店价</span></div></div>
+      <div class="gstep"><i>02</i><div><b>排生产</b><span>「收益排行」填次数，底部合计总成本 / 总净利 / 总精力</span></div></div>
+      <div class="gstep"><i>03</i><div><b>看清单</b><span>「生产计划」拆成买什么、做什么，可逐项改来源</span></div></div>
     </div>
     <div class="flex" style="margin-top:16px">
       <button class="btn" onclick="document.querySelector('nav button[data-tab=\'price\']').click()">去拉取行情</button>
-      <span class="mini">已内置梦江南行情，换区服到「④ 材料与价格」重新拉取</span>
+      <span class="mini">已内置梦江南行情，换区服到「材料与价格」重新拉取</span>
     </div>
   </div>
   <div class="cards" id="kpis"></div>
@@ -453,7 +534,9 @@ th.sortable.on{color:var(--cy)}
     </div>
   </div>
 </section>
-</div>
+</div><!-- /content -->
+</main>
+</div><!-- /app -->
 
 <!-- ============ BOM 拆解弹层 ============ -->
 <div class="modal" id="bomModal">
@@ -757,7 +840,7 @@ function renderProfit(){
   });
 
   if (!rows.length){
-    tb.innerHTML = `<tr><td colspan="13" class="empty">该筛选下没有可算的配方 —— 换「技艺 / 定位」，或去「④ 材料与价格」拉行情（装备类多为拾取绑定，交易行没有报价）</td></tr>`;
+    tb.innerHTML = `<tr><td colspan="13" class="empty">该筛选下没有可算的配方 —— 换「技艺 / 定位」，或去「材料与价格」拉行情（装备类多为拾取绑定，交易行没有报价）</td></tr>`;
     return;
   }
   tb.innerHTML = rows.slice(0, 300).map(({ r, s }, i) => {
@@ -824,6 +907,11 @@ function renderSumBar(rows){
   const t = planTotals();
   const nav = document.getElementById('navSum');
   if (nav) nav.innerHTML = t.n ? `计划 <b>${t.n}</b> 个配方 · 净利 <b>${fmt(t.profit)}</b> 金` : '';
+  const st = document.getElementById('sideStatus');
+  if (st){
+    st.textContent = t.n ? `已排产 ${t.n} 个` : '就绪';
+    st.classList.toggle('ok', !t.n);
+  }
   if (!t.n){
     el.innerHTML = `<div class="it"><span class="k">合计</span><span class="v" style="font-size:13px;color:var(--dim)">在「次数」列填生产次数，这里汇总总成本 / 总收益</span></div>`;
     return;
@@ -891,7 +979,7 @@ function renderPlan(){
   if (!t.n){
     k.innerHTML = '';
     body.innerHTML = `<div class="empty" style="padding:34px 0;text-align:center">
-      还没有排产 —— 去「① 收益排行」在<b>次数</b>列填个数，或用下面的快捷排产</div>
+      还没有排产 —— 去「收益排行」在<b>次数</b>列填个数，或用下面的快捷排产</div>
       <div class="flex" style="justify-content:center;gap:8px">
         <button class="btn ghost" onclick="quickPlan('core')">四个核心品各做 20 次</button>
         <button class="btn ghost" onclick="quickPlan('pve')">PVE 常备前 5 各做 10 次</button>
@@ -1375,7 +1463,7 @@ function renderPve(){
     });
 
   if (!rows.length){
-    tb.innerHTML = `<tr><td colspan="10" class="empty">暂无可用数据 —— 先在「④ 材料与价格」拉取区服行情</td></tr>`;
+    tb.innerHTML = `<tr><td colspan="10" class="empty">暂无可用数据 —— 先在「材料与价格」拉取区服行情</td></tr>`;
     return;
   }
   tb.innerHTML = rows.map((x, i) => {
@@ -1460,22 +1548,42 @@ function init(){
     }
   });
   savePrices();
-  document.getElementById('metaLine').textContent = DATA.generatedAt;
-  document.getElementById('presetLine').innerHTML = DATA.preset
-    ? `<b>${esc(DATA.preset.server)}</b> ${esc(DATA.preset.fetchedAt)}（${Object.values(DATA.preset.prices).filter(v => v > 0).length} 项）`
-    : '未载入';
-  document.getElementById('metaTime').textContent = DATA.generatedAt;
-  document.getElementById('metaCount').textContent = TABS.map(t => `${TAB_NAME[t]} ${(RECIPES[t] || []).length}`).join(' + ') + ' 个配方';
+  const pv = DATA.preset && Object.values(DATA.preset.prices).filter(v => v > 0).length;
+  const setTxt = (id, t) => { const e = document.getElementById(id); if (e) e.textContent = t; };
+  setTxt('sideServer', DATA.preset ? DATA.preset.server : '未载入');
+  setTxt('sideTime', DATA.preset ? DATA.preset.fetchedAt.slice(5) : '—');
+  const totalRecipes = TABS.reduce((a, t) => a + (RECIPES[t] || []).length, 0);
+  setTxt('sideCount', totalRecipes + ' 条');
+  const sc = document.getElementById('sideCount');
+  if (sc) sc.title = TABS.map(t => `${TAB_NAME[t]} ${(RECIPES[t] || []).length}`).join(' · ');
+  setTxt('metaTime', DATA.generatedAt);
+  setTxt('metaCount', TABS.map(t => `${TAB_NAME[t]} ${(RECIPES[t] || []).length}`).join(' + ') + ' 个配方');
+  document.getElementById('sideServer').title = pv ? `已载入 ${pv} 项价格` : '';
 
-  document.querySelectorAll('nav button').forEach(b => b.onclick = () => {
-    document.querySelectorAll('nav button').forEach(x => x.classList.remove('on'));
+  /* 页面标题 / 副标题 */
+  const PAGE = {
+    profit: ['收益排行', '按成品算工本、净收入与单精力收益 · 数据抓自 魔盒 JX3BOX'],
+    plan:   ['生产计划', '采购与自制清单，按真实来源分组 · 改次数即联动总账'],
+    path:   ['升级路径', '逐级挑「每点经验最优」的配方，跨级区间自动换'],
+    price:  ['材料与价格', '按来源分组录入单价 · 商店价与交易行价分仓保存'],
+    info:   ['说明', '数据来源、计算口径与已知偏差'],
+  };
+  const switchTab = (tab, btn) => {
+    document.querySelectorAll('nav.menu button').forEach(x => x.classList.toggle('on', x === btn));
     document.querySelectorAll('.tab').forEach(x => x.classList.remove('on'));
-    b.classList.add('on');
-    const tab = b.dataset.tab;
-    document.getElementById('tab-' + tab).classList.add('on');
+    const panel = document.getElementById('tab-' + tab);
+    if (panel) panel.classList.add('on');
+    const [t, s] = PAGE[tab] || ['', ''];
+    setTxt('pageTitle', t);
+    const sub = document.getElementById('pageSub');
+    if (sub) sub.innerHTML = s.replace('魔盒 JX3BOX', '<b>魔盒 JX3BOX</b>');
+    const c = document.querySelector('.content');
+    if (c) c.scrollTop = 0;
     if (tab === 'plan') renderPlan();
     if (tab === 'price') renderGrids();
-  });
+  };
+
+  document.querySelectorAll('nav.menu button').forEach(b => b.onclick = () => switchTab(b.dataset.tab, b));
 
   bindSeg('segType', 'type');
   bindSeg('segKind', 'kind');
@@ -1633,7 +1741,9 @@ function init(){
         Object.assign(state.depth, res.dep || {});
         state.server = server;
         savePrices(); renderGrids(); refreshAll(); plan();
-        document.getElementById('presetLine').innerHTML = `<b>${esc(server)}</b> 实时拉取 ${new Date().toLocaleString('zh-CN', { hour12: false })}（${n} 项）`;
+        const se = document.getElementById('sideServer'), te = document.getElementById('sideTime');
+        if (se) se.textContent = server;
+        if (te) te.textContent = '实时';
         pullMsg.innerHTML = `<b style="color:var(--ok)">成功 ${n} 项</b> · 无报价 ${res.fail} 项 · 用时 ${((Date.now() - t0) / 1000).toFixed(1)}s`;
         pullBar.style.width = '100%';
       }
